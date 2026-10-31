@@ -1,0 +1,127 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Faq from '../components/Faq.astro';
+import { serviceSchema, faqSchema } from '../lib/schema';
+import { ohneHtml } from '../lib/format';
+
+import fotoSystem from '../assets/fotos/systembrett.jpg';
+import fotoGespraech from '../assets/fotos/gespraech-bildkarten.jpg';
+
+const fragen = [
+  {
+    frage: 'Was bedeutet „systemisch“?',
+    antwort:
+      '<p>Systemisch heißt: Wir schauen nicht nur auf dich allein, sondern auf die Zusammenhänge, in denen du lebst und arbeitest. Familie, Partnerschaft, Team, Freundeskreis. Jedes dieser Systeme hat eigene Regeln und Dynamiken, die dein Erleben und Handeln beeinflussen.</p>',
+  },
+  {
+    frage: 'Muss ich andere Menschen mitbringen?',
+    antwort:
+      '<p>Nein. Die Beratung findet mit dir allein statt. Dein Umfeld ist trotzdem „mit im Raum“, weil wir es gemeinsam betrachten, etwa mit Fragen oder auf dem Systembrett.</p>',
+  },
+  {
+    frage: 'Was ist ein Systembrett?',
+    antwort:
+      '<p>Ein Brett mit kleinen Holzfiguren, die für Personen oder Themen stehen. Du stellst sie so auf, wie du die Situation erlebst. Oft wird dabei sichtbar, was sich in Worten schwer fassen lässt: Nähe und Distanz, Spannungen oder blinde Flecken.</p>',
+  },
+  {
+    frage: 'Ist systemische Beratung eine Therapie?',
+    antwort:
+      '<p>Nein. Meine systemische Beratung ist nicht heilkundlich. Sie ersetzt keine Psychotherapie und behandelt keine Erkrankungen, sondern unterstützt dich dabei, Situationen zu verstehen und neue Wege zu finden.</p>',
+  },
+];
+---
+
+<Base
+  title="Systemische Beratung Aachen | Lea Bartz"
+  description="Systemische Beratung in Aachen-Burtscheid und online: Beziehungen, Rollen und Muster verstehen und neue Handlungsmöglichkeiten finden. Erstgespräch kostenlos."
+  breadcrumbs={[
+    { name: 'Angebote', href: '/angebote/' },
+    { name: 'Systemische Beratung', href: '/systemische-beratung-aachen/' },
+  ]}
+  schema={[
+    serviceSchema({
+      name: 'Systemische Beratung in Aachen',
+      href: '/systemische-beratung-aachen/',
+      serviceType: 'Systemische Beratung',
+      beschreibung:
+        'Systemische Beratung in Aachen und online: Beziehungen, Rollen und Muster verstehen und neue Handlungsmöglichkeiten entwickeln.',
+    }),
+    faqSchema(fragen.map((f) => ({ frage: f.frage, antwort: ohneHtml(f.antwort) }))),
+  ]}
+>
+  <PageHero
+    eyebrow="Systemische Beratung in Aachen"
+    titel="Systemische Beratung: den Blick weiten"
+    lead="Manche Situationen verstehen wir erst, wenn wir das Ganze sehen. Systemische Beratung schaut auf deine Beziehungen, Rollen und dein Umfeld und hilft dir, neue Handlungsmöglichkeiten zu entdecken."
+    bild={fotoSystem}
+    bildAlt="Lea Bartz stellt mit Holzfiguren ein Systembrett auf dem Tisch"
+  />
+
+  <section class="section">
+    <div class="container grid-2">
+      <div class="text">
+        <span class="eyebrow">Worum es geht</span>
+        <h2>Nicht du allein, sondern das Zusammenspiel</h2>
+        <p>
+          Oft entstehen Belastungen und innere Spannungen aus Dynamiken, die wir erst auf den zweiten Blick erkennen:
+          unausgesprochene Erwartungen im Team, alte Rollen in der Familie, Muster, die sich in Beziehungen
+          wiederholen.
+        </p>
+        <p>
+          In der systemischen Beratung machen wir solche Zusammenhänge sichtbar. Du verstehst, wie bestimmte
+          Situationen entstehen, und findest heraus, wo du selbst ansetzen kannst. Nicht, um andere zu ändern, sondern
+          um deinen eigenen Spielraum zu vergrößern.
+        </p>
+      </div>
+      <div>
+        <h3>Typische Anliegen</h3>
+        <ul class="haken">
+          <li>Konflikte im Team oder mit der Führungskraft</li>
+          <li>Spannungen in Familie oder Partnerschaft</li>
+          <li>Rollenwechsel, etwa neue Führungsaufgabe oder Elternzeit</li>
+          <li>Wiederkehrende Muster in Beziehungen</li>
+          <li>Entscheidungen, die viele Menschen betreffen</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--hell">
+    <div class="container grid-2 grid-2--bild-links">
+      <div>
+        <span class="eyebrow">Wie ich arbeite</span>
+        <h2>Fragen, Perspektiven, Aufstellungen</h2>
+        <ul class="haken">
+          <li><strong>Systemische Fragen</strong> öffnen neue Blickwinkel: Was wäre, wenn …? Wer würde es zuerst merken?</li>
+          <li><strong>Perspektivwechsel</strong> helfen, die Sicht anderer Beteiligter nachzuvollziehen.</li>
+          <li><strong>Das Systembrett</strong> macht Beziehungen mit Holzfiguren sichtbar.</li>
+          <li><strong>Ressourcenarbeit</strong> lenkt den Blick auf das, was dir schon heute Kraft gibt.</li>
+        </ul>
+        <p>Die Sitzungen dauern 60 oder 90 Minuten, in der Praxis, online oder beim Walk &amp; Talk.</p>
+        <a class="button" href="/kontakt/">Erstgespräch vereinbaren</a>
+      </div>
+      <Image
+        src={fotoGespraech}
+        alt="Lea Bartz im Beratungsgespräch mit einem Klienten, auf dem Tisch liegen Bildkarten"
+        widths={[420, 640, 947]}
+        sizes="(min-width: 52rem) 34rem, 100vw"
+        class="foto"
+      />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="text">
+        <span class="eyebrow">Fragen</span>
+        <h2>Häufige Fragen zur systemischen Beratung</h2>
+      </div>
+      <div class="mt-2"><Faq fragen={fragen} /></div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>

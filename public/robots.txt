@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /kontakt/danke/
+
+Sitemap: https://www.psychologische-beratung-bartz.de/sitemap-index.xml

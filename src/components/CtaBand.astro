@@ -1,0 +1,44 @@
+---
+import { site } from '../config/site';
+
+interface Props {
+  titel?: string;
+  text?: string;
+}
+const {
+  titel = 'Lass uns unverbindlich sprechen',
+  text = 'Im kostenlosen Erstgespräch (20–30 Minuten) lernst du mich und meine Arbeitsweise kennen. Wir schauen, was dich zu mir führt und ob die Beratung zu dir passt. Du musst nichts vorbereiten.',
+} = Astro.props;
+---
+
+<section class="section section--dunkel boegen cta-band">
+  <div class="container text text--mitte">
+    <span class="eyebrow">Erster Schritt</span>
+    <h2>{titel}</h2>
+    <p class="lead">{text}</p>
+    <div class="buttons" style="justify-content:center">
+      <a class="button" href="/kontakt/">Erstgespräch vereinbaren</a>
+      {
+        site.telefon ? (
+          <a class="button button--hell" href={`tel:${site.telefon.link}`}>
+            {site.telefon.anzeige}
+          </a>
+        ) : (
+          <a class="button button--hell" href={`mailto:${site.email}`}>
+            E-Mail schreiben
+          </a>
+        )
+      }
+    </div>
+    <p class="mikro">Kostenfrei · unverbindlich · vertraulich</p>
+  </div>
+</section>
+
+<style>
+  .cta-band::before {
+    border-color: rgba(196, 181, 171, 0.35);
+  }
+  .cta-band::after {
+    border-color: rgba(196, 181, 171, 0.25);
+  }
+</style>

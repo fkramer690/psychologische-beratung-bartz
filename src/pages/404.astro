@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import { angebote } from '../config/site';
+---
+
+<Base title="Seite nicht gefunden | Lea Bartz" description="Diese Seite gibt es nicht (mehr)." noindex>
+  <section class="section boegen">
+    <div class="container text">
+      <span class="eyebrow">Fehler 404</span>
+      <h1>Hier geht es nicht weiter</h1>
+      <p class="lead">Diese Seite gibt es nicht oder nicht mehr. Vielleicht hilft dir einer dieser Wege:</p>
+      <ul class="haken">
+        <li><a href="/">Startseite</a></li>
+        {angebote.map((a) => <li><a href={a.href}>{a.titel}</a></li>)}
+        <li><a href="/ablauf-und-kosten/">Ablauf &amp; Kosten</a></li>
+        <li><a href="/kontakt/">Kostenloses Erstgespräch vereinbaren</a></li>
+      </ul>
+    </div>
+  </section>
+</Base>

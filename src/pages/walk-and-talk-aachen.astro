@@ -1,0 +1,125 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Faq from '../components/Faq.astro';
+import { serviceSchema, faqSchema } from '../lib/schema';
+import { ohneHtml } from '../lib/format';
+import { site } from '../config/site';
+
+import fotoWalk from '../assets/fotos/walk-and-talk-hangeweiher.jpg';
+import fotoWeiher from '../assets/fotos/lea-bartz-am-weiher.jpg';
+
+const fragen = [
+  {
+    frage: 'Wo findet das Walk & Talk statt?',
+    antwort:
+      '<p>Am Hangeweiher in Aachen-Burtscheid, nur wenige Gehminuten von meiner Praxis in der Limburger Straße entfernt. Den genauen Treffpunkt bekommst du mit der Terminbestätigung.</p>',
+  },
+  {
+    frage: 'Was ist, wenn es regnet?',
+    antwort:
+      '<p>Mit passender Kleidung ist leichter Regen meist kein Problem, viele empfinden ihn sogar als angenehm. Bei richtig schlechtem Wetter sprechen wir kurz vorher ab, ob wir in die Praxis oder online wechseln.</p>',
+  },
+  {
+    frage: 'Kann das Erstgespräch als Walk & Talk stattfinden?',
+    antwort:
+      '<p>Nein. Das Erstgespräch findet in der Praxis oder online statt. Ab der ersten Sitzung kannst du Walk &amp; Talk frei wählen.</p>',
+  },
+  {
+    frage: 'Muss ich sportlich sein?',
+    antwort:
+      '<p>Überhaupt nicht. Wir gehen in ruhigem Tempo und bleiben auch mal stehen oder setzen uns auf eine Bank. Es geht ums Gespräch, nicht um Bewegung als Leistung.</p>',
+  },
+];
+---
+
+<Base
+  title="Walk & Talk Aachen am Hangeweiher | Lea Bartz"
+  description="Walk & Talk in Aachen: Beratung beim Spaziergang am Hangeweiher in Burtscheid. Nebeneinander gehen statt gegenübersitzen. Erstgespräch kostenlos."
+  breadcrumbs={[
+    { name: 'Angebote', href: '/angebote/' },
+    { name: 'Walk & Talk', href: '/walk-and-talk-aachen/' },
+  ]}
+  schema={[
+    serviceSchema({
+      name: 'Walk & Talk am Hangeweiher, Aachen',
+      href: '/walk-and-talk-aachen/',
+      serviceType: 'Walk and Talk Beratung',
+      beschreibung:
+        'Psychologische und systemische Beratung im Gehen am Hangeweiher in Aachen-Burtscheid, bei Tageslicht und in ruhigem Tempo.',
+    }),
+    faqSchema(fragen.map((f) => ({ frage: f.frage, antwort: ohneHtml(f.antwort) }))),
+  ]}
+>
+  <PageHero
+    eyebrow="Walk & Talk in Aachen"
+    titel="Walk & Talk am Hangeweiher"
+    lead="Beratung in Bewegung: Wir gehen gemeinsam ein Stück am Hangeweiher, nebeneinander statt gegenüber. Vielen fällt es so leichter, über Belastendes oder Wichtiges zu sprechen."
+    bild={fotoWalk}
+    bildAlt="Lea Bartz geht mit einer Klientin beim Walk & Talk am Wasser spazieren"
+  />
+
+  <section class="section">
+    <div class="container grid-2">
+      <div class="text">
+        <span class="eyebrow">Warum gehen hilft</span>
+        <h2>Wenn sich Gedanken im Gehen lösen</h2>
+        <p>
+          Walk &amp; Talk verbindet Gespräch und Bewegung. In ruhigem Tempo gehen wir gemeinsam ein Stück durchs Grün.
+          Viele Menschen empfinden es als erleichternd, nicht gegenüberzusitzen, sondern nebeneinander zu gehen.
+        </p>
+        <p>
+          Bewegung löst oft Gedanken, schafft Leichtigkeit und macht es einfacher, Worte für Dinge zu finden, die
+          schwer auszusprechen sind. Walk &amp; Talk eignet sich für psychologische wie systemische Themen und ist eine
+          sanfte, natürliche Form der Beratung.
+        </p>
+      </div>
+      <div>
+        <h3>Gut zu wissen</h3>
+        <ul class="haken">
+          <li>Treffpunkt am Hangeweiher, wenige Gehminuten von der Praxis ({site.adresse.strasse})</li>
+          <li>60 oder 90 Minuten, zum selben Preis wie in der Praxis</li>
+          <li>Nur bei Tageslicht, damit wir uns sicher und konzentriert bewegen können</li>
+          <li>Bequeme Schuhe und wetterfeste Kleidung genügen</li>
+          <li>Ab der ersten Sitzung wählbar, nicht für das Erstgespräch</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--hell">
+    <div class="container grid-2 grid-2--bild-links">
+      <div>
+        <span class="eyebrow">Der Ort</span>
+        <h2>Der Hangeweiher in Burtscheid</h2>
+        <p>
+          Der Hangeweiher ist ein ruhiger Ort mitten in Aachen, mit Bäumen, Wasser und Wegen, auf denen man gut ins
+          Gespräch kommt. Weil er so nah an meiner Praxis liegt, verbinden manche Klient:innen auch beides: erst ein
+          Stück gehen, dann am Tisch weiterarbeiten.
+        </p>
+        <a class="button" href="/kontakt/">Erstgespräch vereinbaren</a>
+      </div>
+      <Image
+        src={fotoWeiher}
+        alt="Lea Bartz sitzt im Herbst auf einer Bank am Ufer eines Weihers"
+        widths={[420, 640, 935]}
+        sizes="(min-width: 52rem) 34rem, 100vw"
+        class="foto"
+      />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="text">
+        <span class="eyebrow">Fragen</span>
+        <h2>Häufige Fragen zum Walk &amp; Talk</h2>
+      </div>
+      <div class="mt-2"><Faq fragen={fragen} /></div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>

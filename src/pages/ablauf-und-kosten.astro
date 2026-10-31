@@ -1,0 +1,169 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Schritte from '../components/Schritte.astro';
+import Faq from '../components/Faq.astro';
+import { auswahl } from '../data/faq';
+import { faqSchema } from '../lib/schema';
+import { ohneHtml, preis60Html, preis90Html } from '../lib/format';
+import { hinweisHeilkunde } from '../config/site';
+
+const fragen = auswahl(
+  'Übernimmt die Krankenkasse die Kosten?',
+  'Wie bezahle ich?',
+  'Was passiert, wenn ich einen Termin absagen muss?',
+  'Gibt es auch Termine abends?',
+  'Wie viele Sitzungen brauche ich?',
+);
+---
+
+<Base
+  title="Ablauf & Kosten der Beratung | Lea Bartz, Aachen"
+  description="Was kostet psychologische Beratung bei Lea Bartz in Aachen? Kostenloses Erstgespräch, Sitzungen à 60 oder 90 Minuten, meist 6–8 Termine, keine Mindestlaufzeit."
+  breadcrumbs={[{ name: 'Ablauf & Kosten', href: '/ablauf-und-kosten/' }]}
+  schema={[faqSchema(fragen.map((f) => ({ frage: f.frage, antwort: ohneHtml(f.antwort) })))]}
+>
+  <PageHero
+    eyebrow="Ablauf & Kosten"
+    titel="So läuft die Beratung ab"
+    lead="Klarer Rahmen, keine langfristige Verpflichtung. Du entscheidest immer nur über den nächsten Termin."
+  />
+
+  <section class="section">
+    <div class="container">
+      <h2 class="sr-only">In drei Schritten zur Beratung</h2>
+      <Schritte />
+    </div>
+  </section>
+
+  <section class="section section--hell">
+    <div class="container grid-2" style="align-items:start">
+      <div>
+        <span class="eyebrow">Das Erstgespräch</span>
+        <h2>Kennenlernen, kostenfrei</h2>
+        <p>
+          Das Erstgespräch ist bewusst kurz gehalten (20–30 Minuten) und noch keine Beratungssitzung. Wir lernen uns
+          kennen, ordnen deine Themen ein und du bekommst ein Gefühl dafür, ob meine Art der Begleitung zu dir passt.
+        </p>
+        <ul class="haken">
+          <li>immer kostenfrei, auch wenn du dich danach gegen eine Beratung entscheidest</li>
+          <li>in der Praxis oder online (nicht als Walk &amp; Talk)</li>
+          <li>keine Vorbereitung nötig</li>
+          <li>vertraulich wie jede Sitzung</li>
+        </ul>
+      </div>
+      <div>
+        <span class="eyebrow">Die Beratung</span>
+        <h2>Kurz- bis mittelfristig</h2>
+        <p>
+          Zu Beginn halten wir in einem Beratungsvertrag den Rahmen und die gegenseitigen Erwartungen fest. Meist
+          umfasst eine Beratung etwa 6–8 Sitzungen, je nach Thema auch weniger oder mehr.
+        </p>
+        <ul class="haken">
+          <li>Sitzungen à 60 oder 90 Minuten</li>
+          <li>Format frei wählbar: Praxis, online oder Walk &amp; Talk</li>
+          <li>nach jeder Sitzung eine kurze Zusammenfassung per E-Mail</li>
+          <li>Termine auch außerhalb klassischer Öffnungszeiten</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sand" id="preise">
+    <div class="container">
+      <div class="text">
+        <span class="eyebrow">Preise</span>
+        <h2>Was die Beratung kostet</h2>
+        <p>Alle Preise sind Endpreise inklusive Mehrwertsteuer.</p>
+      </div>
+      <div class="tabelle-wrap mt-2">
+        <table class="tabelle">
+          <thead>
+            <tr><th scope="col">Leistung</th><th scope="col">Dauer</th><th scope="col">Preis</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Erstgespräch</td><td>20–30 Minuten</td><td><strong>kostenfrei</strong></td></tr>
+            <tr><td>Beratungssitzung</td><td>60 Minuten</td><td><strong set:html={preis60Html()} /></td></tr>
+            <tr><td>Beratungssitzung</td><td>90 Minuten</td><td><strong set:html={preis90Html()} /></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="karten mt-2">
+        <div class="karte">
+          <h3>Bezahlung</h3>
+          <p>Nach jeder Sitzung, bar vor Ort, per Sofortüberweisung oder als Vorkasse.</p>
+        </div>
+        <div class="karte">
+          <h3>Absagen</h3>
+          <p>Bis 24 Stunden vorher kostenfrei. Kurzfristig abgesagte oder versäumte Termine werden vollständig berechnet.</p>
+        </div>
+        <div class="karte">
+          <h3>Krankenkasse</h3>
+          <p>Beratung ist eine Privatleistung und wird von den Krankenkassen nicht erstattet.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid-2" style="align-items:start">
+      <div>
+        <span class="eyebrow">Rahmen</span>
+        <h2>Was Beratung ist und was nicht</h2>
+        <p>
+          Meine Beratung ist eine Privatleistung und gehört nicht zur Heilkunde. Statt fertiger Lösungen begleite ich
+          dich dabei, eigene Perspektiven zu entwickeln, Klarheit zu gewinnen und deine Selbstwirksamkeit zu stärken.
+        </p>
+        <p>
+          Sie richtet sich an Menschen, die sich reflektieren, sortieren oder weiterentwickeln möchten, nicht an
+          Menschen in akuten Krisen oder mit behandlungsbedürftigen psychischen Erkrankungen.
+        </p>
+        <p class="mikro">{hinweisHeilkunde}</p>
+      </div>
+      <div>
+        <span class="eyebrow">Fragen</span>
+        <h2>Kurz beantwortet</h2>
+        <Faq fragen={fragen} />
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .tabelle-wrap {
+    overflow-x: auto;
+  }
+  .tabelle {
+    width: 100%;
+    max-width: 44rem;
+    border-collapse: collapse;
+    background: var(--weiss);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .tabelle th,
+  .tabelle td {
+    text-align: left;
+    padding: 0.9rem 1.1rem;
+    border-bottom: 1px solid var(--sand-hell);
+  }
+  .tabelle th {
+    font-family: var(--schrift-titel);
+    font-weight: 500;
+    background: var(--taupe);
+    color: var(--papier);
+  }
+  .tabelle tr:last-child td {
+    border-bottom: 0;
+  }
+  @media (max-width: 40rem) {
+    .tabelle th,
+    .tabelle td {
+      padding: 0.75rem 0.6rem;
+      font-size: 0.95rem;
+    }
+  }
+</style>

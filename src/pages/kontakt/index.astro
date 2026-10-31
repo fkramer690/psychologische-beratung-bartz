@@ -1,0 +1,239 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Todo from '../../components/Todo.astro';
+import { site } from '../../config/site';
+
+import fotoOnline from '../../assets/fotos/online-beratung.jpg';
+---
+
+<Base
+  title="Kostenloses Erstgespräch vereinbaren | Beratung Aachen"
+  description="Vereinbare ein kostenloses Erstgespräch (20–30 Minuten) in Aachen-Burtscheid oder online. Schreib mir eine Nachricht, ich melde mich persönlich bei dir."
+  breadcrumbs={[{ name: 'Kontakt', href: '/kontakt/' }]}
+>
+  <section class="section kontakt boegen">
+    <div class="container grid-2" style="align-items:start">
+      <div>
+        <span class="eyebrow">Kontakt</span>
+        <h1>Vereinbare dein kostenloses Erstgespräch</h1>
+        <p class="lead">
+          Dieser Schritt fällt vielen Menschen nicht leicht. Umso wichtiger ist mir ein wertschätzender Rahmen: Ich
+          lese deine Nachricht aufmerksam und antworte dir persönlich.
+        </p>
+        <ul class="haken">
+          <li>20–30 Minuten, kostenfrei und unverbindlich</li>
+          <li>in der Praxis in Aachen-Burtscheid oder online</li>
+          <li>keine Vorbereitung nötig, ein paar Sätze reichen</li>
+          <li>alles, was du schreibst, bleibt vertraulich</li>
+        </ul>
+
+        <div class="direkt">
+          <h2 class="h3">Lieber direkt?</h2>
+          <p>
+            E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a><br />
+            Telefon:{' '}
+            {site.telefon ? <a href={`tel:${site.telefon.link}`}>{site.telefon.anzeige}</a> : <Todo was="Telefonnummer" />}
+            {site.telefonzeiten && <><br /><span class="mikro">{site.telefonzeiten}. Wenn ich gerade in einer Beratung bin, rufe ich dich zurück.</span></>}
+          </p>
+        </div>
+      </div>
+
+      <form class="formular" method="post" action={site.formAction} aria-labelledby="formular-titel">
+        <h2 id="formular-titel" class="h3">Deine Nachricht</h2>
+        <p id="formular-fehler" class="fehler" role="alert" hidden>
+          Das hat leider nicht geklappt. Bitte prüf Name, E-Mail und die Einwilligung oder schreib mir direkt an
+          <a href={`mailto:${site.email}`}>{site.email}</a>.
+        </p>
+        <script is:inline>
+          if (new URLSearchParams(location.search).has('fehler')) document.getElementById('formular-fehler').hidden = false;
+        </script>
+
+        <div class="feld">
+          <label for="name">Name <span aria-hidden="true">*</span></label>
+          <input id="name" name="name" type="text" autocomplete="name" required maxlength="120" />
+        </div>
+
+        <div class="feld">
+          <label for="email">E-Mail <span aria-hidden="true">*</span></label>
+          <input id="email" name="email" type="email" autocomplete="email" required maxlength="200" />
+        </div>
+
+        <div class="feld">
+          <label for="telefon">Telefon <span class="optional">(optional, falls ich dich anrufen soll)</span></label>
+          <input id="telefon" name="telefon" type="tel" autocomplete="tel" maxlength="40" />
+        </div>
+
+        <fieldset class="feld">
+          <legend>Wo möchtest du das Erstgespräch führen?</legend>
+          <div class="optionen">
+            <label><input type="radio" name="format" value="Praxis" /> In der Praxis</label>
+            <label><input type="radio" name="format" value="Online" /> Online</label>
+            <label><input type="radio" name="format" value="Egal" checked /> Ist mir egal</label>
+          </div>
+        </fieldset>
+
+        <div class="feld">
+          <label for="nachricht">Worum geht es dir? <span class="optional">(optional)</span></label>
+          <textarea id="nachricht" name="nachricht" rows="5" maxlength="4000" placeholder="Ein paar Sätze reichen. Du kannst auch einfach nach einem Termin fragen."></textarea>
+        </div>
+
+        <div class="feld feld--versteckt" aria-hidden="true">
+          <label for="website">Bitte leer lassen</label>
+          <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="feld feld--check">
+          <input id="einwilligung" name="einwilligung" type="checkbox" value="ja" required />
+          <label for="einwilligung">
+            Ich bin einverstanden, dass meine Angaben, auch persönliche Angaben zu meinem Anliegen, zur Beantwortung
+            meiner Anfrage gespeichert und verarbeitet werden. Ich kann die Einwilligung jederzeit widerrufen. Mehr in
+            der <a href="/datenschutz/">Datenschutzerklärung</a>. <span aria-hidden="true">*</span>
+          </label>
+        </div>
+
+        <button class="button" type="submit">Nachricht senden</button>
+        <p class="mikro">* Pflichtfeld. Deine Daten werden verschlüsselt übertragen und nicht an Dritte weitergegeben.</p>
+      </form>
+    </div>
+  </section>
+
+  <section class="section section--hell" id="anfahrt">
+    <div class="container grid-2">
+      <div>
+        <span class="eyebrow">Anfahrt</span>
+        <h2>So findest du die Praxis</h2>
+        <address class="adresse">
+          <strong>{site.name}</strong><br />
+          {site.person}<br />
+          {site.adresse.strasse}<br />
+          {site.adresse.plz} {site.adresse.ort} ({site.adresse.stadtteil})
+        </address>
+        <p>
+          Die Praxis liegt in Burtscheid, wenige Gehminuten vom Hangeweiher entfernt. Die Räume sind über Treppen
+          erreichbar und leider nicht barrierefrei. Wenn das für dich schwierig ist, sprechen wir gern online.
+        </p>
+        <p class="mikro">Parken und Anbindung mit Bus: <Todo was="Hinweis zu Parken und Bushaltestelle" /></p>
+        <a class="button button--hell" href={site.routeLink} rel="noopener" target="_blank">Route auf OpenStreetMap planen</a>
+      </div>
+      <Image
+        src={fotoOnline}
+        alt="Lea Bartz sitzt mit Kopfhörer am Laptop, wie bei einer Online-Beratung"
+        widths={[420, 640, 959]}
+        sizes="(min-width: 52rem) 34rem, 100vw"
+        class="foto"
+      />
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .kontakt {
+    background: linear-gradient(180deg, var(--sand-hell) 0%, var(--papier) 100%);
+    padding-block: clamp(3rem, 7vw, 5.5rem);
+  }
+  .h3 {
+    font-size: clamp(1.2rem, 2.2vw, 1.4rem);
+  }
+  .direkt {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--sand);
+  }
+  .formular {
+    background: var(--weiss);
+    border: 1px solid var(--sand-hell);
+    border-radius: var(--radius);
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    box-shadow: 0 20px 40px -24px rgba(18, 16, 13, 0.18);
+  }
+  .feld {
+    margin: 0 0 1.15rem;
+    border: 0;
+    padding: 0;
+  }
+  .feld label,
+  .feld legend {
+    display: block;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.35rem;
+  }
+  .optional {
+    font-weight: 400;
+    color: var(--greige);
+  }
+  input[type='text'],
+  input[type='email'],
+  input[type='tel'],
+  textarea {
+    width: 100%;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--tinte);
+    background: var(--papier);
+    border: 1px solid var(--sand);
+    border-radius: var(--radius);
+    padding: 0.7rem 0.85rem;
+  }
+  input:focus,
+  textarea:focus {
+    outline: 2px solid var(--schiefer);
+    outline-offset: 1px;
+    border-color: var(--schiefer);
+  }
+  textarea {
+    resize: vertical;
+  }
+  .optionen {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+  }
+  .optionen label {
+    font-weight: 400;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+  }
+  input[type='radio'],
+  input[type='checkbox'] {
+    accent-color: var(--taupe);
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+  .feld--check {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.6rem;
+    align-items: start;
+  }
+  .feld--check input {
+    margin-top: 0.25rem;
+  }
+  .feld--check label {
+    font-weight: 400;
+    font-size: 0.88rem;
+    color: #3a332e;
+  }
+  .feld--versteckt {
+    position: absolute;
+    left: -9999px;
+  }
+  .formular .button {
+    width: 100%;
+  }
+  .adresse {
+    font-style: normal;
+    margin-bottom: 1rem;
+  }
+  .fehler {
+    background: #fbe9e7;
+    color: #6d1f12;
+    border-radius: var(--radius);
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+  }
+</style>

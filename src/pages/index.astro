@@ -1,0 +1,291 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Faq from '../components/Faq.astro';
+import Schritte from '../components/Schritte.astro';
+import { site, angebote } from '../config/site';
+import { auswahl } from '../data/faq';
+import { faqSchema } from '../lib/schema';
+import { ohneHtml } from '../lib/format';
+
+import fotoWeiher from '../assets/fotos/lea-bartz-am-weiher.jpg';
+import fotoGespraech from '../assets/fotos/gespraech-bildkarten.jpg';
+import fotoPortraet from '../assets/fotos/lea-bartz-portraet.jpg';
+import fotoWalk from '../assets/fotos/walk-and-talk-hangeweiher.jpg';
+
+const faqStart = auswahl(
+  'Was passiert im kostenlosen Erstgespräch?',
+  'Was kostet eine Sitzung?',
+  'Wie viele Sitzungen brauche ich?',
+  'Übernimmt die Krankenkasse die Kosten?',
+  'Was ist der Unterschied zwischen Beratung und Psychotherapie?',
+);
+
+const anliegen = [
+  'Du fühlst dich im Job dauerhaft unter Druck und weißt nicht, wo du ansetzen sollst.',
+  'Eine berufliche oder private Entscheidung steht an und du drehst dich im Kreis.',
+  'Konflikte im Team, mit der Führungskraft oder in der Familie kosten dich Kraft.',
+  'Eine Trennung, ein Umzug oder eine neue Lebensphase stellt vieles auf den Kopf.',
+  'Du merkst, dass sich bestimmte Muster in Beziehungen immer wiederholen.',
+  'Es fällt dir schwer, Grenzen zu setzen und auch mal Nein zu sagen.',
+];
+---
+
+<Base
+  title="Psychologische Beratung Aachen | Lea Bartz"
+  description="Psychologische und systemische Beratung in Aachen-Burtscheid, online oder beim Walk & Talk am Hangeweiher. Kostenloses Erstgespräch vereinbaren."
+  schema={[faqSchema(faqStart.map((f) => ({ frage: f.frage, antwort: ohneHtml(f.antwort) })))]}
+>
+  <!-- Hero -->
+  <section class="hero boegen">
+    <div class="container grid-2">
+      <div>
+        <span class="eyebrow">Psychologische Beratung in Aachen</span>
+        <h1>Raum für Klarheit, wenn dich etwas nicht loslässt</h1>
+        <p class="lead">
+          Ich bin Lea Bartz und begleite dich mit psychologischer und systemischer Beratung: in meiner Praxis in
+          Aachen-Burtscheid, online oder beim Walk &amp; Talk am Hangeweiher. Ruhig, strukturiert und auf
+          Augenhöhe.
+        </p>
+        <div class="buttons mt-2">
+          <a class="button" href="/kontakt/">Kostenloses Erstgespräch vereinbaren</a>
+          <a class="button button--hell" href="/ablauf-und-kosten/">So läuft es ab</a>
+        </div>
+        <p class="mikro">20–30 Minuten · kostenfrei und unverbindlich · vertraulich</p>
+      </div>
+      <Image
+        src={fotoWeiher}
+        alt="Lea Bartz, psychologische Beraterin in Aachen, sitzt im Herbst am Ufer eines Weihers"
+        widths={[420, 640, 935]}
+        sizes="(min-width: 52rem) 34rem, 100vw"
+        class="foto hero__bild"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+  </section>
+
+  <!-- Vertrauen -->
+  <section class="fakten" aria-label="Auf einen Blick">
+    <div class="container">
+      <ul class="fakten__liste">
+        <li><strong>15+ Jahre</strong><span>Erfahrung mit Menschen im Bereich People &amp; Culture</span></li>
+        <li><strong>3 Formate</strong><span>Praxis in Aachen, online oder Walk &amp; Talk</span></li>
+        <li><strong>Kostenfrei</strong><span>Erstgespräch zum Kennenlernen, ohne Verpflichtung</span></li>
+        <li><strong>Vertraulich</strong><span>Alles, was du erzählst, bleibt zwischen uns</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Anliegen -->
+  <section class="section">
+    <div class="container grid-2">
+      <div>
+        <span class="eyebrow">Kennst du das?</span>
+        <h2>Manchmal hilft ein klarer Blick von außen</h2>
+        <p>
+          Viele Menschen kommen zu mir, weil sich etwas festgefahren anfühlt. Andere, weil sie bewusst etwas verändern
+          wollen. Beides ist ein guter Grund. Vielleicht erkennst du dich hier wieder:
+        </p>
+        <ul class="haken">
+          {anliegen.map((a) => <li>{a}</li>)}
+        </ul>
+        <p>
+          In der Beratung sortieren wir gemeinsam, was dich bewegt, erkennen Muster und entwickeln Schritte, die zu dir
+          passen. Es geht nicht nur um ein „weg von“, sondern genauso um ein „hin zu“.
+        </p>
+      </div>
+      <Image
+        src={fotoGespraech}
+        alt="Lea Bartz im Beratungsgespräch mit einem Klienten, auf dem Tisch liegen Bildkarten"
+        widths={[420, 640, 947]}
+        sizes="(min-width: 52rem) 34rem, 100vw"
+        class="foto"
+      />
+    </div>
+  </section>
+
+  <!-- Angebote -->
+  <section class="section section--hell" id="angebote">
+    <div class="container">
+      <div class="text">
+        <span class="eyebrow">Angebote</span>
+        <h2>Beratung, die zu deinem Leben passt</h2>
+        <p>
+          Psychologische und systemische Beratung für private und berufliche Themen. Das Format wählst du für jede
+          Sitzung neu.
+        </p>
+      </div>
+      <div class="karten mt-2">
+        {
+          angebote.map((a) => (
+            <article class="karte karte--link">
+              <h3>
+                <a href={a.href} style="color:inherit;text-decoration:none">
+                  {a.titel}
+                </a>
+              </h3>
+              <p>{a.kurz}</p>
+              <span class="karte__mehr" aria-hidden="true">
+                Mehr erfahren →
+              </span>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Ablauf -->
+  <section class="section">
+    <div class="container">
+      <div class="text">
+        <span class="eyebrow">So einfach geht der Anfang</span>
+        <h2>In drei Schritten zu deiner Beratung</h2>
+      </div>
+      <div class="mt-2">
+        <Schritte />
+      </div>
+      <div class="buttons mt-2">
+        <a class="button" href="/kontakt/">Erstgespräch vereinbaren</a>
+        <a href="/ablauf-und-kosten/">Ablauf, Preise und Rahmen im Detail</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Über mich -->
+  <section class="section section--sand">
+    <div class="container grid-2 grid-2--bild-links">
+      <div>
+        <span class="eyebrow">Über mich</span>
+        <h2>Hallo, ich bin Lea</h2>
+        <p>
+          Menschen und ihre Geschichten haben mich schon immer berührt. In über 15 Jahren im Bereich People &amp;
+          Culture habe ich viele Menschen in herausfordernden Situationen begleitet. Mich interessiert vor allem, was
+          hinter Rollen, Erwartungen und Strukturen liegt: der Mensch selbst.
+        </p>
+        <p>
+          Eine eigene systemische Beratung hat mir gezeigt, wie viel ein klarer, wertschätzender Blick bewirken kann.
+          Diese Haltung bringe ich heute in meine Arbeit mit: kein Druck, keine schnellen Lösungen, sondern ein
+          geschützter Raum zum Verstehen, Ordnen und Wachsen.
+        </p>
+        <a class="button button--hell" href="/ueber-mich/">Mehr über mich</a>
+      </div>
+      <Image
+        src={fotoPortraet}
+        alt="Porträt von Lea Bartz, lächelnd, im Hintergrund unscharf die Stadt"
+        widths={[400, 600, 790]}
+        sizes="(min-width: 52rem) 30rem, 100vw"
+        class="foto portraet"
+      />
+    </div>
+  </section>
+
+  <!-- Lokal -->
+  <section class="section">
+    <div class="container grid-2">
+      <div>
+        <span class="eyebrow">Praxis in Aachen-Burtscheid</span>
+        <h2>Zwischen Praxis und Hangeweiher</h2>
+        <p>
+          Meine Praxis liegt in der {site.adresse.strasse} in Burtscheid, ruhig und gut erreichbar. Nur wenige
+          Gehminuten entfernt liegt der Hangeweiher, wo wir beim Walk &amp; Talk nebeneinander gehen statt
+          gegenüberzusitzen. Und wenn der Weg nach Aachen für dich zu weit ist, sprechen wir online.
+        </p>
+        <address class="adresse">
+          <strong>{site.name}</strong><br />
+          {site.adresse.strasse}, {site.adresse.plz} {site.adresse.ort}
+        </address>
+        <div class="buttons">
+          <a class="button button--hell" href="/kontakt/#anfahrt">Anfahrt</a>
+          <a href="/walk-and-talk-aachen/">Mehr zum Walk &amp; Talk</a>
+        </div>
+      </div>
+      <Image
+        src={fotoWalk}
+        alt="Lea Bartz geht mit einer Klientin beim Walk & Talk am Wasser spazieren"
+        widths={[420, 640, 958]}
+        sizes="(min-width: 52rem) 34rem, 100vw"
+        class="foto walk"
+      />
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section--hell">
+    <div class="container">
+      <div class="text">
+        <span class="eyebrow">Häufige Fragen</span>
+        <h2>Gut zu wissen, bevor du startest</h2>
+      </div>
+      <div class="mt-2">
+        <Faq fragen={faqStart} />
+      </div>
+      <p class="mt-2"><a href="/faq/">Alle Fragen und Antworten</a></p>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .hero {
+    padding-block: clamp(2.5rem, 7vw, 6rem) clamp(3rem, 7vw, 5.5rem);
+    background: linear-gradient(180deg, var(--sand-hell) 0%, var(--papier) 100%);
+  }
+  .hero h1 {
+    max-width: 15ch;
+  }
+  .hero__bild {
+    aspect-ratio: 4 / 5;
+    max-height: 36rem;
+    object-position: 35% 50%;
+  }
+  @media (max-width: 52rem) {
+    .hero__bild {
+      aspect-ratio: 4 / 3;
+    }
+  }
+
+  .fakten {
+    border-block: 1px solid var(--sand-hell);
+    background: var(--weiss);
+  }
+  .fakten__liste {
+    list-style: none;
+    margin: 0;
+    padding: 1.75rem 0;
+    display: grid;
+    gap: 1.25rem 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  }
+  .fakten__liste li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .fakten__liste strong {
+    font-family: var(--schrift-titel);
+    font-weight: 500;
+    font-size: 1.35rem;
+    color: var(--taupe-dunkel);
+  }
+  .fakten__liste span {
+    font-size: 0.95rem;
+    color: var(--greige);
+  }
+
+  .portraet {
+    aspect-ratio: 5 / 6;
+    max-height: 32rem;
+  }
+  .walk {
+    aspect-ratio: 1 / 1;
+    max-height: 32rem;
+  }
+  .adresse {
+    font-style: normal;
+    margin-bottom: 1.25rem;
+  }
+</style>

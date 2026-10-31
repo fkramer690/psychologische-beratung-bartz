@@ -1,0 +1,3 @@
+# Für Netlify oder Cloudflare Pages (auf IONOS gilt .htaccess)
+/faq-1/  /faq/  301
+/faq-1   /faq/  301

@@ -1,0 +1,12 @@
+---
+/**
+ * Gelb markierter Platzhalter für Angaben, die noch fehlen.
+ * `npm run check:todos` listet alle Platzhalter der gebauten Seite auf.
+ */
+interface Props {
+  was: string;
+}
+const { was } = Astro.props;
+---
+
+<mark class="todo" data-todo={was}>[{was}]</mark>
