@@ -1,0 +1,201 @@
+name: Auftrag bearbeiten
+
+# Gehört in das PRIVATE Auftrags-Repo (z. B. fkramer690/lea-auftraege) unter
+# .github/workflows/auftrag.yml, zusammen mit ANWEISUNG.md im Wurzelordner.
+#
+# Ablauf: Lea legt auf der Admin-Seite einen Auftrag an (= Issue) oder antwortet
+# (= Kommentar). Claude Code ändert die Website, die Automatik öffnet einen
+# Pull Request im Website-Repo und schreibt Claudes Antwort als Kommentar zurück.
+# Live geht nichts: Fabian mergt den PR, danach erscheint die Änderung in der Vorschau.
+#
+# Secrets in diesem Repo:
+#   CLAUDE_CODE_OAUTH_TOKEN  aus `claude setup-token` (Claude-Abo)  ODER  ANTHROPIC_API_KEY
+#   WEBSITE_TOKEN            Fine-grained Token, nur Repo psychologische-beratung-bartz,
+#                            Contents: Read and write, Pull requests: Read and write
+
+on:
+  issues:
+    types: [opened]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: write
+  actions: read
+
+concurrency:
+  group: auftrag-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+env:
+  WEBSITE_REPO: fkramer690/psychologische-beratung-bartz
+  VORSCHAU_URL: https://fkramer690.github.io/psychologische-beratung-bartz/
+  TAGESLIMIT: '25'
+
+jobs:
+  bearbeiten:
+    # Nur offene Aufträge, keine PRs, nicht auf eigene (Bot-)Kommentare reagieren
+    if: >-
+      github.event.issue.pull_request == null &&
+      github.event.issue.state == 'open' &&
+      github.event.sender.type != 'Bot'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+      NR: ${{ github.event.issue.number }}
+      ZWEIG: lea/auftrag-${{ github.event.issue.number }}
+    steps:
+      - name: Tageslimit prüfen
+        id: limit
+        run: |
+          heute=$(date -u +%F)
+          anzahl=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/auftrag.yml/runs?created=%3E%3D$heute&per_page=1" --jq .total_count)
+          echo "Läufe heute: $anzahl (Limit $TAGESLIMIT)"
+          if [ "$anzahl" -gt "$TAGESLIMIT" ]; then
+            gh issue comment "$NR" -R "$GITHUB_REPOSITORY" --body "Für heute ist das Limit an Aufträgen erreicht. Bitte morgen noch einmal schreiben oder Fabian Bescheid geben."
+            echo "stopp=1" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Status "in Arbeit" setzen
+        if: steps.limit.outputs.stopp != '1'
+        run: |
+          gh label create in-arbeit -R "$GITHUB_REPOSITORY" --color 657387 --description "Claude arbeitet" --force
+          gh label create freigabe -R "$GITHUB_REPOSITORY" --color 816E62 --description "Wartet auf Fabians Freigabe" --force
+          gh issue edit "$NR" -R "$GITHUB_REPOSITORY" --remove-label freigabe || true
+          gh issue edit "$NR" -R "$GITHUB_REPOSITORY" --add-label in-arbeit
+
+      - name: Anweisungen auschecken
+        if: steps.limit.outputs.stopp != '1'
+        uses: actions/checkout@v4
+        with:
+          path: steuerung
+          persist-credentials: false
+
+      - name: Website auschecken
+        if: steps.limit.outputs.stopp != '1'
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.WEBSITE_REPO }}
+          token: ${{ secrets.WEBSITE_TOKEN }}
+          path: website
+          fetch-depth: 0
+          persist-credentials: false   # Claude soll den Token nicht in .git/config finden
+
+      - name: Arbeitszweig wählen
+        if: steps.limit.outputs.stopp != '1'
+        working-directory: website
+        env:
+          GH_TOKEN: ${{ secrets.WEBSITE_TOKEN }}
+        run: |
+          offen=$(gh pr list -R "$WEBSITE_REPO" --head "$ZWEIG" --state open --json number --jq length)
+          if [ "$offen" != "0" ] && git rev-parse --verify -q "origin/$ZWEIG" >/dev/null; then
+            echo "Offener PR vorhanden, arbeite auf $ZWEIG weiter."
+            git checkout -B "$ZWEIG" "origin/$ZWEIG"
+          else
+            echo "Neuer Zweig $ZWEIG ab main."
+            git checkout -B "$ZWEIG" origin/main
+          fi
+
+      - uses: actions/setup-node@v4
+        if: steps.limit.outputs.stopp != '1'
+        with:
+          node-version-file: website/.nvmrc
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - name: Abhängigkeiten installieren
+        if: steps.limit.outputs.stopp != '1'
+        run: |
+          (cd website && npm ci)
+          npm install -g @anthropic-ai/claude-code
+
+      - name: Gesprächsverlauf aufbereiten
+        if: steps.limit.outputs.stopp != '1'
+        run: |
+          gh issue view "$NR" -R "$GITHUB_REPOSITORY" --json title,body,comments > verlauf.json
+          jq -r '
+            def wer: if ((.author.login // "") | test("^github-actions(\\[bot\\])?$")) then "Claude (deine frühere Antwort)" else "Lea" end;
+            "# Auftrag: \(.title)\n\n## Lea\n\(.body)\n\n"
+            + ([.comments[] | "## \(wer)\n\(.body)\n"] | join("\n"))
+          ' verlauf.json > auftrag.md
+          echo "Verlauf: $(wc -c < auftrag.md) Zeichen"
+
+      - name: Claude bearbeitet den Auftrag
+        if: steps.limit.outputs.stopp != '1'
+        working-directory: website
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          unset GH_TOKEN
+          [ -n "$CLAUDE_CODE_OAUTH_TOKEN" ] || unset CLAUDE_CODE_OAUTH_TOKEN
+          [ -n "$ANTHROPIC_API_KEY" ] || unset ANTHROPIC_API_KEY
+          claude -p "$(cat ../auftrag.md)" \
+            --append-system-prompt "$(cat ../steuerung/ANWEISUNG.md)" \
+            --allowedTools "Read,Edit,Write,Glob,Grep,Bash(npm run build),Bash(npm run check:todos)" \
+            --max-turns 60 \
+            --output-format json > ../ergebnis.json
+          jq '{kosten_usd: .total_cost_usd, runden: .num_turns, fehler: .is_error}' ../ergebnis.json || true
+          jq -r '.result // ""' ../ergebnis.json > ../antwort.md
+          if [ ! -s ../antwort.md ]; then echo "Claude hat keine Antwort geliefert."; exit 1; fi
+
+      - name: Änderungen prüfen und als PR einreichen
+        if: steps.limit.outputs.stopp != '1'
+        id: pr
+        working-directory: website
+        env:
+          WEBSITE_TOKEN: ${{ secrets.WEBSITE_TOKEN }}
+        run: |
+          # Nur src/, public/ und docs/ werden übernommen, alles andere verworfen
+          verworfen=$(git status --porcelain --untracked-files=all | cut -c4- | grep -vE '^(src|public|docs)/' || true)
+          if [ -n "$verworfen" ]; then echo "Verworfen:"; echo "$verworfen"; fi
+          git add -A -- src public docs
+          if git diff --cached --quiet; then
+            echo "Keine Änderungen an der Website."
+            exit 0
+          fi
+          git diff --cached --stat
+          npm run build
+          git -c user.name="Auftrag von Lea" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "Website-Änderung aus Leas Auftrag #$NR"
+          git push --force "https://x-access-token:${WEBSITE_TOKEN}@github.com/${WEBSITE_REPO}.git" "HEAD:refs/heads/$ZWEIG"
+
+          export GH_TOKEN="$WEBSITE_TOKEN"
+          url=$(gh pr list -R "$WEBSITE_REPO" --head "$ZWEIG" --state open --json url --jq '.[0].url // ""')
+          if [ -z "$url" ]; then
+            {
+              echo "Änderung aus einem Auftrag von Lea über die Admin-Seite (Auftrag #$NR im privaten Auftrags-Repo)."
+              echo
+              echo "Bitte prüfen und mergen. Nach dem Merge erscheint sie in der Vorschau: $VORSCHAU_URL"
+              echo "Live geht sie erst mit dem Workflow \"Veröffentlichen (SFTP)\"."
+              echo
+              echo "Geänderte Dateien:"
+              git diff --name-only origin/main...HEAD | sed 's/^/- /'
+            } > ../pr.md
+            url=$(gh pr create -R "$WEBSITE_REPO" --head "$ZWEIG" --base main \
+              --title "Website-Änderung aus Leas Auftrag #$NR" --body-file ../pr.md)
+          fi
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Antwort an Lea
+        if: steps.limit.outputs.stopp != '1'
+        env:
+          PR_URL: ${{ steps.pr.outputs.url }}
+        run: |
+          cp antwort.md kommentar.md
+          if [ -n "$PR_URL" ]; then
+            printf '\n\n---\nFabian bekommt die Änderung jetzt zur Freigabe. Danach ist sie in der Vorschau zu sehen: %s\n\nFür Fabian: %s\n' "$VORSCHAU_URL" "$PR_URL" >> kommentar.md
+            gh issue edit "$NR" -R "$GITHUB_REPOSITORY" --add-label freigabe
+          fi
+          gh issue comment "$NR" -R "$GITHUB_REPOSITORY" --body-file kommentar.md
+
+      - name: Fehler melden
+        if: failure()
+        run: |
+          gh issue comment "$NR" -R "$GITHUB_REPOSITORY" --body "Da ist leider etwas schiefgegangen, die Änderung ist nicht durchgelaufen. Fabian kann im Protokoll nachsehen: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+
+      - name: Status "in Arbeit" entfernen
+        if: always()
+        run: gh issue edit "$NR" -R "$GITHUB_REPOSITORY" --remove-label in-arbeit || true
