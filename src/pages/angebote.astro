@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import Icon from '../components/Icon.astro';
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import CtaBand from '../components/CtaBand.astro';
@@ -15,18 +16,21 @@ import fotoOnline from '../assets/fotos/online-beratung.jpg';
 const formate = [
   {
     titel: 'In der Praxis',
+    icon: 'praxis' as const,
     text: 'Ruhige Räume in Aachen-Burtscheid, Limburger Str. 23. Für alle Methoden geeignet.',
     href: '/kontakt/#anfahrt',
     link: 'Anfahrt',
   },
   {
     titel: 'Online',
+    icon: 'online' as const,
     text: 'Per Video von zu Hause aus. Spart Wege und passt gut in einen vollen Alltag.',
     href: '/online-beratung/',
     link: 'Online-Beratung',
   },
   {
     titel: 'Walk & Talk',
+    icon: 'weg' as const,
     text: 'Beratung in Bewegung am Hangeweiher, bei Tageslicht und in ruhigem Tempo.',
     href: '/walk-and-talk-aachen/',
     link: 'Walk & Talk',
@@ -122,6 +126,7 @@ const formate = [
         {
           formate.map((f) => (
             <article class="karte karte--link">
+              <Icon name={f.icon} kreis />
               <h3>
                 <a href={f.href} style="color:inherit;text-decoration:none">
                   {f.titel}

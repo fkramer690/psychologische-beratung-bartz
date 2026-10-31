@@ -3,6 +3,8 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Schritte from '../components/Schritte.astro';
+import Icon from '../components/Icon.astro';
+import BeratungsWeg from '../components/BeratungsWeg.astro';
 import Faq from '../components/Faq.astro';
 import { auswahl } from '../data/faq';
 import { faqSchema } from '../lib/schema';
@@ -28,7 +30,9 @@ const fragen = auswahl(
     eyebrow="Ablauf & Kosten"
     titel="So läuft die Beratung ab"
     lead="Klarer Rahmen, keine langfristige Verpflichtung. Du entscheidest immer nur über den nächsten Termin."
-  />
+  >
+    <BeratungsWeg slot="seite" />
+  </PageHero>
 
   <section class="section">
     <div class="container">
@@ -91,14 +95,17 @@ const fragen = auswahl(
       </div>
       <div class="karten mt-2">
         <div class="karte">
+          <Icon name="bezahlung" kreis />
           <h3>Bezahlung</h3>
           <p>Nach jeder Sitzung, bar vor Ort, per Sofortüberweisung oder als Vorkasse.</p>
         </div>
         <div class="karte">
+          <Icon name="kalender" kreis />
           <h3>Absagen</h3>
           <p>Bis 24 Stunden vorher kostenfrei. Kurzfristig abgesagte oder versäumte Termine werden vollständig berechnet.</p>
         </div>
         <div class="karte">
+          <Icon name="dokument" kreis />
           <h3>Krankenkasse</h3>
           <p>Beratung ist eine Privatleistung und wird von den Krankenkassen nicht erstattet.</p>
         </div>

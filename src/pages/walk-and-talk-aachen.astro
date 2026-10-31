@@ -4,6 +4,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Faq from '../components/Faq.astro';
+import PraxisWeg from '../components/PraxisWeg.astro';
 import { serviceSchema, faqSchema } from '../lib/schema';
 import { ohneHtml } from '../lib/format';
 import { site } from '../config/site';
@@ -99,6 +100,7 @@ const fragen = [
           Gespräch kommt. Weil er so nah an meiner Praxis liegt, verbinden manche Klient:innen auch beides: erst ein
           Stück gehen, dann am Tisch weiterarbeiten.
         </p>
+        <PraxisWeg />
         <a class="button" href="/kontakt/">Erstgespräch vereinbaren</a>
       </div>
       <Image

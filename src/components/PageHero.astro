@@ -11,11 +11,12 @@ interface Props {
   cta?: boolean;
 }
 const { eyebrow, titel, lead, bild, bildAlt = '', cta = true } = Astro.props;
+const seite = Astro.slots.has('seite');
 ---
 
 <section class="seitenkopf boegen">
   <div class="container">
-    <div class={bild ? 'grid-2' : 'text'}>
+    <div class={bild || seite ? 'grid-2' : 'text'}>
       <div>
         {eyebrow && <span class="eyebrow">{eyebrow}</span>}
         <h1>{titel}</h1>
@@ -43,6 +44,7 @@ const { eyebrow, titel, lead, bild, bildAlt = '', cta = true } = Astro.props;
           />
         )
       }
+      {seite && <slot name="seite" />}
     </div>
   </div>
 </section>
