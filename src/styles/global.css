@@ -421,3 +421,37 @@ strong {
 .section--dunkel a:not(.button) {
   color: var(--sand);
 }
+
+/* ---------- Icons (Linie 1,6, Taupe, siehe components/Icon.astro) ---------- */
+
+.icon,
+.icon-kreis {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  color: var(--taupe);
+}
+.icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.icon-kreis {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: var(--sand-hell);
+  color: var(--taupe-dunkel);
+}
+.icon-kreis svg {
+  width: 1.9rem;
+  height: 1.9rem;
+}
+.section--sand .icon-kreis {
+  background: var(--papier);
+}
+.section--sand .karte .icon-kreis {
+  background: var(--sand-hell);
+}
+.karte .icon-kreis {
+  margin-bottom: 1rem;
+}

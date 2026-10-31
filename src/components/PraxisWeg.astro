@@ -1,0 +1,106 @@
+---
+// Kleines Schaubild: Praxis und Hangeweiher liegen nah beieinander.
+import Icon from './Icon.astro';
+import { site } from '../config/site';
+---
+
+<figure class="praxisweg">
+  <div class="praxisweg__ort">
+    <Icon name="praxis" kreis />
+    <span><strong>Praxis</strong>{site.adresse.strasse}</span>
+  </div>
+  <div class="praxisweg__strecke" aria-hidden="true">
+    <span>wenige Gehminuten</span>
+  </div>
+  <div class="praxisweg__ort">
+    <Icon name="weiher" kreis />
+    <span><strong>Hangeweiher</strong>Walk &amp; Talk</span>
+  </div>
+  <figcaption class="sr-only">Vom Praxisraum in der {site.adresse.strasse} sind es nur wenige Gehminuten bis zum Hangeweiher.</figcaption>
+</figure>
+
+<style>
+  .praxisweg {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin: 1.5rem 0 1.75rem;
+    max-width: 30rem;
+  }
+  .praxisweg__ort {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+    flex: none;
+    width: 8.5rem;
+  }
+  .praxisweg__ort span {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.85rem;
+    line-height: 1.35;
+    color: var(--greige);
+  }
+  .praxisweg__ort strong {
+    font-family: var(--schrift-titel);
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--tinte);
+  }
+  .praxisweg__strecke {
+    position: relative;
+    flex: 1;
+    min-width: 4rem;
+    height: 3.25rem;
+    display: grid;
+    place-items: center;
+  }
+  /* gepunkteter Weg in Sand, mittig auf Höhe der Kreise */
+  .praxisweg__strecke::before {
+    content: '';
+    position: absolute;
+    left: -2.6rem;
+    right: -2.6rem;
+    top: 50%;
+    border-top: 2px dotted var(--ton);
+  }
+  .praxisweg__strecke span {
+    position: relative;
+    padding: 0 0.5rem;
+    background: var(--hintergrund, var(--papier));
+    font-family: var(--schrift-titel);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--taupe-dunkel);
+    white-space: nowrap;
+  }
+  @media (max-width: 30rem) {
+    .praxisweg__ort {
+      width: 6.5rem;
+    }
+    .praxisweg__ort span {
+      font-size: 0.78rem;
+      white-space: nowrap;
+    }
+    .praxisweg__strecke {
+      min-width: 0;
+    }
+    .praxisweg__strecke::before {
+      left: -1.5rem;
+      right: -1.5rem;
+    }
+    .praxisweg__strecke span {
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      white-space: normal;
+      text-align: center;
+      max-width: 6rem;
+    }
+  }
+  :global(.section--hell) .praxisweg__strecke span {
+    background: var(--weiss);
+  }
+</style>

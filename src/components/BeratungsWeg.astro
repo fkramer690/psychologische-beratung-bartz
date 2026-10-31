@@ -1,0 +1,108 @@
+---
+// Schaubild „Dein Weg durch die Beratung“: vier Stationen als Treppe,
+// angelehnt an die Stufe im Logo (der nächste Schritt führt nach rechts unten).
+// Als echte Liste gebaut, damit Text lesbar, übersetzbar und barrierefrei bleibt.
+const stationen = [
+  { titel: 'Nachricht', text: 'ein paar Sätze reichen' },
+  { titel: 'Erstgespräch', text: '20–30 Minuten, kostenfrei' },
+  { titel: 'Beratung', text: 'meist 6–8 Sitzungen' },
+  { titel: 'Abschluss', text: 'wann es für dich passt' },
+];
+---
+
+<figure class="weg">
+  <figcaption class="eyebrow">Dein Weg durch die Beratung</figcaption>
+  <ol class="weg__liste">
+    {
+      stationen.map((s, i) => (
+        <li class="weg__station" style={`--i:${i}`}>
+          <span class="weg__punkt" aria-hidden="true">
+            {i + 1}
+          </span>
+          <span class="weg__text">
+            <strong>{s.titel}</strong>
+            <span>{s.text}</span>
+          </span>
+        </li>
+      ))
+    }
+  </ol>
+</figure>
+
+<style>
+  .weg {
+    --punkt: 3rem;
+    --versatz: clamp(1.5rem, 6vw, 3.25rem);
+    --luecke: 1.4rem;
+    margin: 0;
+    padding: clamp(1.5rem, 4vw, 2.25rem);
+    background: var(--weiss);
+    border: 1px solid var(--sand-hell);
+    border-radius: var(--radius);
+    align-self: center;
+  }
+  .weg figcaption {
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+  .weg__liste {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .weg__station {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: var(--punkt);
+    margin-left: calc(var(--i) * var(--versatz));
+  }
+  .weg__station + .weg__station {
+    margin-top: var(--luecke);
+  }
+  /* Stufe: vom vorigen Punkt senkrecht nach unten, dann nach rechts */
+  .weg__station + .weg__station::before {
+    content: '';
+    position: absolute;
+    left: calc(var(--versatz) * -1 + var(--punkt) / 2 - 1px);
+    top: calc(var(--luecke) * -1);
+    width: calc(var(--versatz) - var(--punkt) / 2 + 1px);
+    height: calc(var(--luecke) + var(--punkt) / 2 + 1px);
+    border-left: 2px solid var(--sand);
+    border-bottom: 2px solid var(--sand);
+    border-bottom-left-radius: 0.6rem;
+  }
+  .weg__punkt {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: var(--punkt);
+    height: var(--punkt);
+    border-radius: 50%;
+    border: 2px solid var(--taupe);
+    background: var(--weiss);
+    font-family: var(--schrift-titel);
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: var(--taupe-dunkel);
+  }
+  .weg__station:last-child .weg__punkt {
+    background: var(--taupe);
+    color: var(--papier);
+  }
+  .weg__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.35;
+  }
+  .weg__text strong {
+    font-family: var(--schrift-titel);
+    font-weight: 500;
+    font-size: 1.1rem;
+  }
+  .weg__text span {
+    font-size: 0.92rem;
+    color: var(--greige);
+  }
+</style>

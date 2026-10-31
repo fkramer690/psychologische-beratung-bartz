@@ -1,0 +1,102 @@
+---
+// Schaubild „systemisch gedacht“: du in der Mitte, verbunden mit den Menschen
+// und Rollen um dich herum. Der große Ring steht wie im Logo für den
+// geschützten Raum. Farben: Taupe und Schieferblau wie L und B im Zeichen.
+const knoten = [
+  { x: 112, y: 86, r: 14, farbe: 'var(--taupe)', label: 'Familie', lx: 112, ly: 58, anker: 'middle' },
+  { x: 330, y: 84, r: 12, farbe: 'var(--schiefer)', label: 'Partnerschaft', lx: 330, ly: 58, anker: 'middle' },
+  { x: 362, y: 200, r: 16, farbe: 'var(--taupe)', label: 'Team', lx: 362, ly: 238, anker: 'middle' },
+  { x: 208, y: 276, r: 11, farbe: 'var(--schiefer)', label: 'Freundeskreis', lx: 228, ly: 281, anker: 'start' },
+  { x: 86, y: 212, r: 13, farbe: 'var(--schiefer)', label: 'Beruf', lx: 86, ly: 246, anker: 'middle' },
+];
+const mitte = { x: 220, y: 165 };
+// Verbindungen zwischen den anderen: gestrichelt, leiser
+const quer = [
+  [0, 1],
+  [2, 3],
+  [4, 2],
+];
+---
+
+<figure class="systembild">
+  <svg viewBox="0 0 440 330" role="img" aria-labelledby="systembild-text">
+    <circle cx={mitte.x} cy={mitte.y} r="150" class="systembild__ring" />
+    {
+      quer.map(([a, b]) => (
+        <line x1={knoten[a].x} y1={knoten[a].y} x2={knoten[b].x} y2={knoten[b].y} class="systembild__quer" />
+      ))
+    }
+    {knoten.map((k) => <line x1={mitte.x} y1={mitte.y} x2={k.x} y2={k.y} class="systembild__linie" />)}
+    {
+      knoten.map((k) => (
+        <g>
+          <circle cx={k.x} cy={k.y} r={k.r} class="systembild__knoten" style={`stroke:${k.farbe}`} />
+          <text x={k.lx} y={k.ly} text-anchor={k.anker} class="systembild__label">
+            {k.label}
+          </text>
+        </g>
+      ))
+    }
+    <circle cx={mitte.x} cy={mitte.y} r="34" class="systembild__du" />
+    <text x={mitte.x} y={mitte.y + 7} text-anchor="middle" class="systembild__du-text">Du</text>
+  </svg>
+  <figcaption id="systembild-text">
+    Systemisch gedacht: Du bist Teil vieler Beziehungen. Bewegt sich etwas an einer Stelle, wirkt es auf das Ganze.
+  </figcaption>
+</figure>
+
+<style>
+  .systembild {
+    margin: 0 0 2rem;
+    max-width: 27rem;
+  }
+  .systembild svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .systembild__ring {
+    fill: none;
+    stroke: var(--sand);
+    stroke-width: 1.5;
+    opacity: 0.7;
+  }
+  .systembild__linie {
+    stroke: var(--sand);
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .systembild__quer {
+    stroke: var(--ton);
+    stroke-width: 1.5;
+    stroke-dasharray: 2 6;
+    stroke-linecap: round;
+    opacity: 0.8;
+  }
+  .systembild__knoten {
+    fill: var(--weiss);
+    stroke-width: 2.5;
+  }
+  .systembild__label {
+    font-family: var(--schrift-titel);
+    font-size: 16px;
+    font-weight: 500;
+    fill: var(--tinte);
+  }
+  .systembild__du {
+    fill: var(--taupe);
+  }
+  .systembild__du-text {
+    font-family: var(--schrift-titel);
+    font-size: 20px;
+    font-weight: 500;
+    fill: var(--papier);
+    letter-spacing: 0.04em;
+  }
+  .systembild figcaption {
+    margin-top: 0.75rem;
+    font-size: 0.92rem;
+    color: var(--greige);
+  }
+</style>

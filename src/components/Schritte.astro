@@ -1,20 +1,25 @@
 ---
+import Icon from './Icon.astro';
+
 interface Props {
-  schritte?: { titel: string; text: string }[];
+  schritte?: { titel: string; text: string; icon: 'nachricht' | 'kennenlernen' | 'stufen' }[];
 }
 const {
   schritte = [
     {
       titel: 'Nachricht schreiben',
       text: 'Ein paar Sätze reichen. Du kannst auch einfach „Ich möchte ein Erstgespräch“ schreiben. Ich melde mich persönlich bei dir.',
+      icon: 'nachricht',
     },
     {
       titel: 'Kostenloses Erstgespräch',
       text: '20–30 Minuten in der Praxis oder online. Wir lernen uns kennen, ordnen dein Anliegen ein und klären deine Fragen.',
+      icon: 'kennenlernen',
     },
     {
       titel: 'Beratung in deinem Tempo',
       text: 'Sitzungen à 60 oder 90 Minuten, vor Ort, online oder beim Walk & Talk. Du entscheidest immer nur über den nächsten Termin.',
+      icon: 'stufen',
     },
   ],
 } = Astro.props;
@@ -24,7 +29,8 @@ const {
   {
     schritte.map((s, i) => (
       <li class="schritte__eintrag">
-        <span class="schritte__nr" aria-hidden="true">{i + 1}</span>
+        <Icon name={s.icon} kreis class="schritte__icon" />
+        <span class="schritte__nr">Schritt {i + 1}</span>
         <h3>{s.titel}</h3>
         <p class="mb-0">{s.text}</p>
       </li>
@@ -38,21 +44,65 @@ const {
     padding: 0;
     margin: 0;
     display: grid;
-    gap: 2rem;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-    counter-reset: schritt;
+    gap: 2.25rem;
+  }
+  .schritte__eintrag {
+    position: relative;
+  }
+  .schritte :global(.schritte__icon) {
+    position: relative;
+    z-index: 1;
+    width: 3.5rem;
+    height: 3.5rem;
+    margin-bottom: 1rem;
+    background: var(--weiss);
+    border: 2px solid var(--taupe);
   }
   .schritte__nr {
-    display: grid;
-    place-items: center;
-    width: 2.75rem;
-    height: 2.75rem;
-    border: 2px solid var(--taupe);
-    border-radius: 50%;
+    display: block;
     font-family: var(--schrift-titel);
+    font-size: 0.8rem;
     font-weight: 500;
-    font-size: 1.15rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
     color: var(--taupe-dunkel);
-    margin-bottom: 1rem;
+    margin-bottom: 0.3rem;
+  }
+
+  /* Mobil: senkrechte Linie zwischen den Kreisen */
+  .schritte__eintrag:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: calc(1.75rem - 1px);
+    top: 3.5rem;
+    bottom: -2.25rem;
+    width: 2px;
+    background: var(--sand);
+  }
+  @media (max-width: 51.99rem) {
+    .schritte__eintrag {
+      padding-left: 4.75rem;
+    }
+    .schritte :global(.schritte__icon) {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+  }
+
+  /* Breit: drei Spalten, waagerechte Linie durch die Kreise */
+  @media (min-width: 52rem) {
+    .schritte {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .schritte__eintrag:not(:last-child)::before {
+      left: 3.5rem;
+      right: -2rem;
+      top: calc(1.75rem - 1px);
+      bottom: auto;
+      width: auto;
+      height: 2px;
+    }
   }
 </style>

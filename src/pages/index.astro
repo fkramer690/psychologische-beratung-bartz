@@ -4,6 +4,8 @@ import Base from '../layouts/Base.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Faq from '../components/Faq.astro';
 import Schritte from '../components/Schritte.astro';
+import Icon from '../components/Icon.astro';
+import PraxisWeg from '../components/PraxisWeg.astro';
 import { site, angebote } from '../config/site';
 import { auswahl } from '../data/faq';
 import { faqSchema } from '../lib/schema';
@@ -70,10 +72,10 @@ const anliegen = [
   <section class="fakten" aria-label="Auf einen Blick">
     <div class="container">
       <ul class="fakten__liste">
-        <li><strong>15+ Jahre</strong><span>Erfahrung mit Menschen im Bereich People &amp; Culture</span></li>
-        <li><strong>3 Formate</strong><span>Praxis in Aachen, online oder Walk &amp; Talk</span></li>
-        <li><strong>Kostenfrei</strong><span>Erstgespräch zum Kennenlernen, ohne Verpflichtung</span></li>
-        <li><strong>Vertraulich</strong><span>Alles, was du erzählst, bleibt zwischen uns</span></li>
+        <li><Icon name="stufen" /><div><strong>15+ Jahre</strong><span>Erfahrung mit Menschen im Bereich People &amp; Culture</span></div></li>
+        <li><Icon name="ort" /><div><strong>3 Formate</strong><span>Praxis in Aachen, online oder Walk &amp; Talk</span></div></li>
+        <li><Icon name="tasse" /><div><strong>Kostenfrei</strong><span>Erstgespräch zum Kennenlernen, ohne Verpflichtung</span></div></li>
+        <li><Icon name="schloss" /><div><strong>Vertraulich</strong><span>Alles, was du erzählst, bleibt zwischen uns</span></div></li>
       </ul>
     </div>
   </section>
@@ -121,6 +123,7 @@ const anliegen = [
         {
           angebote.map((a) => (
             <article class="karte karte--link">
+              <Icon name={a.icon} kreis />
               <h3>
                 <a href={a.href} style="color:inherit;text-decoration:none">
                   {a.titel}
@@ -193,6 +196,7 @@ const anliegen = [
           Gehminuten entfernt liegt der Hangeweiher, wo wir beim Walk &amp; Talk nebeneinander gehen statt
           gegenüberzusitzen. Und wenn der Weg nach Aachen für dich zu weit ist, sprechen wir online.
         </p>
+        <PraxisWeg />
         <address class="adresse">
           <strong>{site.name}</strong><br />
           {site.adresse.strasse}, {site.adresse.plz} {site.adresse.ort}
@@ -262,8 +266,20 @@ const anliegen = [
   }
   .fakten__liste li {
     display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+  }
+  .fakten__liste li > div {
+    display: flex;
     flex-direction: column;
     gap: 0.15rem;
+  }
+  .fakten__liste :global(.icon) {
+    margin-top: 0.3rem;
+  }
+  .fakten__liste :global(.icon svg) {
+    width: 2rem;
+    height: 2rem;
   }
   .fakten__liste strong {
     font-family: var(--schrift-titel);

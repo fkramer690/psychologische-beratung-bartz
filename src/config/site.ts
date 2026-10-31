@@ -81,25 +81,29 @@ export const nav = [
   { href: '/faq/', label: 'FAQ' },
 ];
 
-export const angebote = [
+export const angebote: { href: string; titel: string; icon: 'gespraech' | 'system' | 'weg' | 'online'; kurz: string }[] = [
   {
     href: '/angebote/#psychologische-beratung',
     titel: 'Psychologische Beratung',
+    icon: 'gespraech',
     kurz: 'Gedanken, Gefühle und Muster sortieren, wenn dich etwas beschäftigt oder du dich weiterentwickeln willst.',
   },
   {
     href: '/systemische-beratung-aachen/',
     titel: 'Systemische Beratung',
+    icon: 'system',
     kurz: 'Den Blick auf Beziehungen, Rollen und Umfeld richten und neue Handlungsmöglichkeiten finden.',
   },
   {
     href: '/walk-and-talk-aachen/',
     titel: 'Walk & Talk am Hangeweiher',
+    icon: 'weg',
     kurz: 'Nebeneinander gehen statt gegenübersitzen. Beratung in Bewegung, wenige Minuten von der Praxis.',
   },
   {
     href: '/online-beratung/',
     titel: 'Online-Beratung',
+    icon: 'online',
     kurz: 'Per Video von zu Hause aus, mit derselben Ruhe und Struktur wie in der Praxis.',
   },
 ];
