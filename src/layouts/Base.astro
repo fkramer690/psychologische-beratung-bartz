@@ -1,0 +1,75 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../config/site';
+import { basisSchema, breadcrumbSchema } from '../lib/schema';
+
+interface Props {
+  /** <title>, 50–60 Zeichen, Zielbegriff vorn */
+  title: string;
+  /** Meta-Description, 140–155 Zeichen, mit Nutzen und Handlungsaufforderung */
+  description: string;
+  /** Brotkrumen ohne Startseite, z. B. [{ name: 'Über mich', href: '/ueber-mich/' }] */
+  breadcrumbs?: { name: string; href: string }[];
+  /** Zusätzliche JSON-LD-Objekte für diese Seite */
+  schema?: Record<string, unknown>[];
+  ogImage?: string;
+  noindex?: boolean;
+}
+
+const { title, description, breadcrumbs = [], schema = [], ogImage = '/vorschaubild-1200x630.png', noindex = false } =
+  Astro.props;
+
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const ogImageUrl = new URL(ogImage, site.url).href;
+
+const graph = [...basisSchema(), ...(breadcrumbs.length ? [breadcrumbSchema(breadcrumbs)] : []), ...schema];
+const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+
+    <link rel="preload" href="/brand/lea-bartz-logo-quer-farbig.svg" as="image" type="image/svg+xml" />
+
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#816E62" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <meta name="geo.region" content="DE-NW" />
+    <meta name="geo.placename" content="Aachen" />
+    <meta name="geo.position" content={`${site.adresse.geo.lat};${site.adresse.geo.lng}`} />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <script type="application/ld+json" is:inline set:html={jsonLd} />
+  </head>
+  <body>
+    <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+    <Header />
+    <main id="inhalt">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

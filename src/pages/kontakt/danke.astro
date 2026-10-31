@@ -1,0 +1,38 @@
+---
+import Base from '../../layouts/Base.astro';
+import { krisenhilfe } from '../../config/site';
+---
+
+<Base
+  title="Danke für deine Nachricht | Lea Bartz"
+  description="Deine Nachricht ist angekommen. Ich melde mich persönlich bei dir."
+  noindex
+>
+  <section class="section boegen danke">
+    <div class="container text text--mitte">
+      <span class="eyebrow">Nachricht gesendet</span>
+      <h1>Danke für dein Vertrauen</h1>
+      <p class="lead">
+        Deine Nachricht ist bei mir angekommen. Ich lese sie in Ruhe und melde mich persönlich bei dir, um einen Termin
+        für das Erstgespräch zu finden.
+      </p>
+      <p>Falls du keine Antwort bekommst, schau bitte auch in deinen Spam-Ordner.</p>
+      <div class="buttons" style="justify-content:center">
+        <a class="button button--hell" href="/ablauf-und-kosten/">So geht es weiter</a>
+        <a href="/">Zur Startseite</a>
+      </div>
+      <p class="mikro mt-2">
+        In einer akuten Krise: Telefonseelsorge{' '}
+        <a href={`tel:${krisenhilfe.nummern[0].link}`}>{krisenhilfe.nummern[0].anzeige}</a>, im Notfall 112.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .danke {
+    min-height: 60vh;
+    display: grid;
+    align-items: center;
+  }
+</style>

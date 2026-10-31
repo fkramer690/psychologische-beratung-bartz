@@ -1,0 +1,58 @@
+---
+interface Props {
+  schritte?: { titel: string; text: string }[];
+}
+const {
+  schritte = [
+    {
+      titel: 'Nachricht schreiben',
+      text: 'Ein paar Sätze reichen. Du kannst auch einfach „Ich möchte ein Erstgespräch“ schreiben. Ich melde mich persönlich bei dir.',
+    },
+    {
+      titel: 'Kostenloses Erstgespräch',
+      text: '20–30 Minuten in der Praxis oder online. Wir lernen uns kennen, ordnen dein Anliegen ein und klären deine Fragen.',
+    },
+    {
+      titel: 'Beratung in deinem Tempo',
+      text: 'Sitzungen à 60 oder 90 Minuten, vor Ort, online oder beim Walk & Talk. Du entscheidest immer nur über den nächsten Termin.',
+    },
+  ],
+} = Astro.props;
+---
+
+<ol class="schritte">
+  {
+    schritte.map((s, i) => (
+      <li class="schritte__eintrag">
+        <span class="schritte__nr" aria-hidden="true">{i + 1}</span>
+        <h3>{s.titel}</h3>
+        <p class="mb-0">{s.text}</p>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .schritte {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    counter-reset: schritt;
+  }
+  .schritte__nr {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 2px solid var(--taupe);
+    border-radius: 50%;
+    font-family: var(--schrift-titel);
+    font-weight: 500;
+    font-size: 1.15rem;
+    color: var(--taupe-dunkel);
+    margin-bottom: 1rem;
+  }
+</style>

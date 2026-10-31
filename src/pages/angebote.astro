@@ -1,0 +1,191 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { serviceSchema } from '../lib/schema';
+import { preis60Html, preis90Html } from '../lib/format';
+
+import fotoNotizen from '../assets/fotos/notizen.jpg';
+import fotoPraxis from '../assets/fotos/gespraech-praxis.jpg';
+import fotoSystem from '../assets/fotos/systembrett.jpg';
+import fotoWalk from '../assets/fotos/walk-and-talk-hangeweiher.jpg';
+import fotoOnline from '../assets/fotos/online-beratung.jpg';
+
+const formate = [
+  {
+    titel: 'In der Praxis',
+    text: 'Ruhige Räume in Aachen-Burtscheid, Limburger Str. 23. Für alle Methoden geeignet.',
+    href: '/kontakt/#anfahrt',
+    link: 'Anfahrt',
+  },
+  {
+    titel: 'Online',
+    text: 'Per Video von zu Hause aus. Spart Wege und passt gut in einen vollen Alltag.',
+    href: '/online-beratung/',
+    link: 'Online-Beratung',
+  },
+  {
+    titel: 'Walk & Talk',
+    text: 'Beratung in Bewegung am Hangeweiher, bei Tageslicht und in ruhigem Tempo.',
+    href: '/walk-and-talk-aachen/',
+    link: 'Walk & Talk',
+  },
+];
+---
+
+<Base
+  title="Angebote: Beratung in Aachen und online | Lea Bartz"
+  description="Psychologische und systemische Beratung in Aachen: in der Praxis in Burtscheid, online oder als Walk & Talk am Hangeweiher. Sitzungen à 60 oder 90 Minuten."
+  breadcrumbs={[{ name: 'Angebote', href: '/angebote/' }]}
+  schema={[
+    serviceSchema({
+      name: 'Psychologische Beratung',
+      href: '/angebote/#psychologische-beratung',
+      serviceType: 'Psychologische Beratung',
+      beschreibung:
+        'Nicht heilkundliche psychologische Beratung für private und berufliche Themen in Aachen, online oder als Walk & Talk.',
+    }),
+  ]}
+>
+  <PageHero
+    eyebrow="Angebote"
+    titel="Individuelle Beratung, persönlich und flexibel"
+    lead="Ich biete psychologische und systemische Beratung für private und berufliche Themen. Das Format passt sich deinem Alltag an: vor Ort in Aachen, online oder im Grünen beim Walk & Talk. Bei Bedarf auch außerhalb klassischer Öffnungszeiten."
+    bild={fotoNotizen}
+    bildAlt="Lea Bartz schreibt am Tisch Notizen in ein Notizbuch"
+  />
+
+  <section class="section" id="psychologische-beratung">
+    <div class="container grid-2">
+      <div>
+        <span class="eyebrow">Psychologische Beratung</span>
+        <h2>Gedanken, Gefühle und Muster sortieren</h2>
+        <p>
+          Psychologische Beratung unterstützt dich dabei, Gedanken, Gefühle und innere Konflikte besser zu verstehen
+          und zu sortieren. Gemeinsam schauen wir auf das, was dich bewegt: eine belastende Situation, ein
+          wiederkehrendes Muster oder der Wunsch nach mehr Klarheit und Stabilität.
+        </p>
+        <p>
+          Du erkennst Zusammenhänge, entwickelst neue Perspektiven und nutzt deine eigenen Ressourcen wieder stärker.
+          Das ist sinnvoll, wenn du dich festgefahren fühlst, und genauso, wenn du dich bewusst weiterentwickeln willst.
+        </p>
+        <p><strong>Passt gut, wenn du …</strong></p>
+        <ul class="haken">
+          <li>dich gestresst, unruhig oder ausgelaugt fühlst und verstehen willst, warum,</li>
+          <li>vor einer Entscheidung stehst und Klarheit suchst,</li>
+          <li>an deinem Selbstwert, deinen Grenzen oder deiner Kommunikation arbeiten möchtest.</li>
+        </ul>
+        <a class="button" href="/kontakt/">Erstgespräch vereinbaren</a>
+      </div>
+      <Image
+        src={fotoPraxis}
+        alt="Lea Bartz sitzt im Sessel und spricht mit einer Klientin in ihrer Praxis"
+        widths={[420, 640, 954]}
+        sizes="(min-width: 52rem) 34rem, 100vw"
+        class="foto"
+      />
+    </div>
+  </section>
+
+  <section class="section section--hell">
+    <div class="container grid-2 grid-2--bild-links">
+      <div>
+        <span class="eyebrow">Systemische Beratung</span>
+        <h2>Dich im Zusammenhang sehen</h2>
+        <p>
+          Die systemische Beratung betrachtet dich nicht isoliert, sondern mit deinen Beziehungen, Rollen und dem
+          Umfeld, in dem du dich bewegst. Oft entstehen Spannungen aus Dynamiken, die man erst auf den zweiten Blick
+          erkennt. Mit Fragen, Perspektivwechseln und Methoden wie dem Systembrett machen wir Muster sichtbar und finden
+          neue Handlungsmöglichkeiten.
+        </p>
+        <a class="button button--hell" href="/systemische-beratung-aachen/">Mehr zur systemischen Beratung</a>
+      </div>
+      <Image
+        src={fotoSystem}
+        alt="Lea Bartz stellt mit Holzfiguren ein Systembrett auf dem Tisch"
+        widths={[420, 640, 966]}
+        sizes="(min-width: 52rem) 34rem, 100vw"
+        class="foto"
+      />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="text">
+        <span class="eyebrow">Formate</span>
+        <h2>Wo wir sprechen, entscheidest du</h2>
+        <p>Das Format kannst du für jede Sitzung neu wählen. Nicht jede Methode passt zu jedem Rahmen, das besprechen wir gemeinsam.</p>
+      </div>
+      <div class="karten mt-2">
+        {
+          formate.map((f) => (
+            <article class="karte karte--link">
+              <h3>
+                <a href={f.href} style="color:inherit;text-decoration:none">
+                  {f.titel}
+                </a>
+              </h3>
+              <p>{f.text}</p>
+              <span class="karte__mehr" aria-hidden="true">
+                {f.link} →
+              </span>
+            </article>
+          ))
+        }
+      </div>
+      <div class="bilder mt-2">
+        <Image src={fotoWalk} alt="Lea Bartz geht mit einer Klientin beim Walk & Talk am Wasser spazieren" widths={[420, 640]} sizes="(min-width: 52rem) 34rem, 100vw" class="foto" />
+        <Image src={fotoOnline} alt="Lea Bartz sitzt mit Kopfhörer am Laptop, wie bei einer Online-Beratung" widths={[420, 640]} sizes="(min-width: 52rem) 34rem, 100vw" class="foto" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sand">
+    <div class="container">
+      <div class="text">
+        <span class="eyebrow">Preise</span>
+        <h2>Klar und transparent</h2>
+      </div>
+      <div class="karten mt-2">
+        <div class="karte">
+          <h3>Erstgespräch</h3>
+          <p class="preis">kostenfrei</p>
+          <p>20–30 Minuten, in der Praxis oder online</p>
+        </div>
+        <div class="karte">
+          <h3>Sitzung 60 Minuten</h3>
+          <p class="preis" set:html={preis60Html()} />
+          <p>inkl. MwSt., vor Ort, online oder Walk &amp; Talk</p>
+        </div>
+        <div class="karte">
+          <h3>Sitzung 90 Minuten</h3>
+          <p class="preis" set:html={preis90Html()} />
+          <p>inkl. MwSt., für mehr Zeit und Tiefe</p>
+        </div>
+      </div>
+      <p class="mt-2"><a href="/ablauf-und-kosten/">Ablauf, Bezahlung und Absagen im Detail</a></p>
+    </div>
+  </section>
+
+  <CtaBand titel="Nutze das kostenlose Erstgespräch" text="Für einen unkomplizierten Einblick in meine Arbeit. Wir finden gemeinsam heraus, welches Angebot zu dir passt." />
+</Base>
+
+<style>
+  .bilder {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  }
+  .bilder :global(img) {
+    aspect-ratio: 3 / 2;
+  }
+  .preis {
+    font-family: var(--schrift-titel);
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--taupe-dunkel);
+    margin-bottom: 0.3rem;
+  }
+</style>

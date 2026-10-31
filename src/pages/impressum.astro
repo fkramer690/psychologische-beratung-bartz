@@ -1,0 +1,79 @@
+---
+import Base from '../layouts/Base.astro';
+import Todo from '../components/Todo.astro';
+import { site, hinweisHeilkunde } from '../config/site';
+---
+
+<Base
+  title="Impressum | Psychologische Beratung Bartz, Aachen"
+  description="Impressum und rechtliche Hinweise: Lea Bartz, Psychologische Beratung Bartz, Limburger Str. 23, 52064 Aachen."
+  breadcrumbs={[{ name: 'Impressum', href: '/impressum/' }]}
+>
+  <section class="section rechtstext">
+    <div class="container text">
+      <h1>Impressum</h1>
+
+      <h2>Angaben gemäß § 5 DDG</h2>
+      <p>
+        {site.person}<br />
+        {site.name}<br />
+        {site.adresse.strasse}<br />
+        {site.adresse.plz} {site.adresse.ort}<br />
+        Deutschland
+      </p>
+
+      <h2>Kontakt</h2>
+      <p>
+        E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a><br />
+        Telefon: {site.telefon ? <a href={`tel:${site.telefon.link}`}>{site.telefon.anzeige}</a> : <Todo was="Telefonnummer" />}
+      </p>
+
+      <h2>Umsatzsteuer</h2>
+      <p>
+        Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG:{' '}
+        {site.ustId ?? <Todo was="USt-IdNr. oder Satz entfernen, falls keine vorhanden" />}
+      </p>
+
+      <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+      <p>
+        {site.person}, {site.adresse.strasse}, {site.adresse.plz} {site.adresse.ort}
+      </p>
+
+      <h2>Verbraucherstreitbeilegung</h2>
+      <p>
+        Ich bin nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer
+        Verbraucherschlichtungsstelle teilzunehmen.
+      </p>
+
+      <h2>Hinweis zur Beratung</h2>
+      <p>
+        {hinweisHeilkunde} Bei psychischen Erkrankungen oder akuten Krisen wende dich bitte an ärztliche oder
+        psychotherapeutische Fachstellen.
+      </p>
+
+      <h2>Haftung für Links</h2>
+      <p>
+        Diese Website enthält Links zu externen Websites Dritter, auf deren Inhalte ich keinen Einfluss habe. Für diese
+        fremden Inhalte ist stets der jeweilige Anbieter verantwortlich. Bei Bekanntwerden von Rechtsverletzungen
+        entferne ich derartige Links umgehend.
+      </p>
+
+      <h2>Gestaltung</h2>
+      <p>Logo, Corporate Design und Website: <Todo was="Angabe zur Gestaltung, optional" /></p>
+
+      <p class="mikro">
+        <Todo was="Impressum vor Livegang rechtlich prüfen lassen (z. B. IT-Recht Kanzlei, eRecht24)" />
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .rechtstext h1 {
+    margin-bottom: 1.5rem;
+  }
+  .rechtstext h2 {
+    font-size: 1.25rem;
+    margin-top: 2rem;
+  }
+</style>

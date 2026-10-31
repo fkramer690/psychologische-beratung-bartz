@@ -1,0 +1,75 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Faq from '../components/Faq.astro';
+import { fragen, gruppen } from '../data/faq';
+import { faqSchema } from '../lib/schema';
+import { ohneHtml } from '../lib/format';
+
+const slug = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/ä/g, 'ae')
+    .replace(/ö/g, 'oe')
+    .replace(/ü/g, 'ue')
+    .replace(/ß/g, 'ss')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+---
+
+<Base
+  title="FAQ: Erstgespräch, Ablauf und Kosten | Lea Bartz"
+  description="Häufige Fragen zur psychologischen Beratung in Aachen: kostenloses Erstgespräch, Ablauf, Kosten, Krankenkasse, Absagen, Praxis und Walk & Talk."
+  breadcrumbs={[{ name: 'FAQ', href: '/faq/' }]}
+  schema={[faqSchema(fragen.map((f) => ({ frage: f.frage, antwort: ohneHtml(f.antwort) })))]}
+>
+  <PageHero
+    eyebrow="Häufige Fragen"
+    titel="FAQ: alles Wichtige auf einen Blick"
+    lead="Antworten, die dir Orientierung geben und den Einstieg erleichtern. Deine Frage ist nicht dabei? Schreib mir einfach."
+  />
+
+  <section class="section">
+    <div class="container">
+      <nav class="sprung" aria-label="Themen">
+        {gruppen.map((g) => <a href={`#${slug(g)}`}>{g}</a>)}
+      </nav>
+      {
+        gruppen.map((g) => (
+          <section class="gruppe" id={slug(g)} aria-labelledby={`h-${slug(g)}`}>
+            <h2 id={`h-${slug(g)}`}>{g}</h2>
+            <Faq fragen={fragen.filter((f) => f.gruppe === g)} />
+          </section>
+        ))
+      }
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .sprung {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 3rem;
+  }
+  .sprung a {
+    padding: 0.45rem 0.9rem;
+    border: 1px solid var(--sand);
+    border-radius: 999px;
+    font-family: var(--schrift-titel);
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--tinte);
+    text-decoration: none;
+  }
+  .sprung a:hover {
+    background: var(--sand-hell);
+  }
+  .gruppe + .gruppe {
+    margin-top: 3.5rem;
+  }
+</style>

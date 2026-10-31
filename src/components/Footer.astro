@@ -1,0 +1,194 @@
+---
+import { site, krisenhilfe, hinweisHeilkunde, angebote } from '../config/site';
+import Todo from './Todo.astro';
+
+const jahr = new Date().getFullYear();
+const aufKontakt = Astro.url.pathname.startsWith('/kontakt');
+---
+
+<footer class="fuss">
+  <div class="container">
+    <div class="fuss__krise" role="note" aria-label="Hilfe in akuten Krisen">
+      <p class="mb-0">
+        <strong>Akute Krise?</strong>{' '}
+        {krisenhilfe.text}{' '}
+        Telefonseelsorge:{' '}
+        {
+          krisenhilfe.nummern.map((n, i) => (
+            <>
+              <a href={`tel:${n.link}`}>{n.anzeige}</a>
+              {i < krisenhilfe.nummern.length - 1 ? ' · ' : ''}
+            </>
+          ))
+        }
+      </p>
+    </div>
+
+    <div class="fuss__raster">
+      <div>
+        <img
+          src="/brand/lea-bartz-logo-quer-negativ.svg"
+          alt="Lea Bartz – Psychologische Beratung Aachen"
+          width="212"
+          height="60"
+          loading="lazy"
+          class="fuss__logo"
+        />
+        <address class="fuss__adresse">
+          {site.name}<br />
+          {site.person}<br />
+          {site.adresse.strasse}<br />
+          {site.adresse.plz} {site.adresse.ort}
+        </address>
+        <p>
+          <a href={`mailto:${site.email}`}>{site.email}</a><br />
+          {site.telefon ? <a href={`tel:${site.telefon.link}`}>{site.telefon.anzeige}</a> : <Todo was="Telefonnummer" />}
+        </p>
+      </div>
+
+      <div>
+        <p class="fuss__titel">Angebote</p>
+        <ul>
+          {angebote.map((a) => <li><a href={a.href}>{a.titel}</a></li>)}
+        </ul>
+      </div>
+
+      <div>
+        <p class="fuss__titel">Gut zu wissen</p>
+        <ul>
+          <li><a href="/ablauf-und-kosten/">Ablauf &amp; Kosten</a></li>
+          <li><a href="/ueber-mich/">Über mich</a></li>
+          <li><a href="/faq/">Häufige Fragen</a></li>
+          <li><a href="/kontakt/">Kontakt &amp; Anfahrt</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="fuss__titel">Erstgespräch</p>
+        <p>20–30 Minuten, kostenfrei und unverbindlich, in der Praxis oder online.</p>
+        <a class="button" href="/kontakt/">Termin anfragen</a>
+      </div>
+    </div>
+
+    <div class="fuss__unten">
+      <p class="fuss__hinweis">{hinweisHeilkunde}</p>
+      <p class="mb-0">
+        © {jahr} {site.person} · {site.name}, Aachen{' · '}
+        <a href="/impressum/">Impressum</a>{' · '}
+        <a href="/datenschutz/">Datenschutz</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+{
+  !aufKontakt && (
+    <div class="mobil-cta" aria-hidden="false">
+      <a class="button" href="/kontakt/">Kostenloses Erstgespräch</a>
+      {site.telefon && (
+        <a class="button button--hell" href={`tel:${site.telefon.link}`} aria-label="Anrufen">
+          Anrufen
+        </a>
+      )}
+    </div>
+  )
+}
+
+<style>
+  .fuss {
+    background: var(--tinte);
+    color: var(--sand-hell);
+    padding-block: 3.5rem 2rem;
+    font-size: 0.95rem;
+  }
+  .fuss a {
+    color: var(--papier);
+  }
+  .fuss a:hover {
+    color: var(--sand);
+  }
+  .fuss__krise {
+    border: 1px solid rgba(196, 181, 171, 0.35);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    margin-bottom: 3rem;
+  }
+  .fuss__raster {
+    display: grid;
+    gap: 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  }
+  .fuss__logo {
+    height: 44px;
+    width: auto;
+    margin-bottom: 1.25rem;
+  }
+  .fuss__adresse {
+    font-style: normal;
+    margin-bottom: 1rem;
+  }
+  .fuss__titel {
+    font-family: var(--schrift-titel);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    color: var(--sand);
+    margin-bottom: 0.9rem;
+  }
+  .fuss ul {
+    list-style: none;
+    padding: 0;
+  }
+  .fuss li {
+    margin-bottom: 0.45rem;
+  }
+  .fuss .button {
+    background: var(--papier);
+    border-color: var(--papier);
+    color: var(--tinte);
+  }
+  .fuss .button:hover {
+    background: var(--sand);
+    border-color: var(--sand);
+    color: var(--tinte);
+  }
+  .fuss__unten {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(196, 181, 171, 0.25);
+    font-size: 0.85rem;
+    color: var(--sand);
+  }
+  .fuss__hinweis {
+    max-width: 50rem;
+  }
+
+  .mobil-cta {
+    display: none;
+  }
+  @media (max-width: 40rem) {
+    .mobil-cta {
+      position: fixed;
+      z-index: 40;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.6rem 0.75rem calc(0.6rem + env(safe-area-inset-bottom));
+      background: rgba(250, 249, 246, 0.96);
+      border-top: 1px solid var(--sand-hell);
+      backdrop-filter: blur(8px);
+    }
+    .mobil-cta .button {
+      flex: 1;
+    }
+    .mobil-cta .button--hell {
+      flex: 0 0 auto;
+    }
+    :global(body) {
+      padding-bottom: 4.5rem;
+    }
+  }
+</style>

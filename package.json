@@ -1,0 +1,20 @@
+{
+  "name": "psychologische-beratung-bartz",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Website von Lea Bartz, Psychologische Beratung Aachen",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check:todos": "node scripts/check-todos.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource/jost": "^5.3.0",
+    "@fontsource/open-sans": "^5.3.0",
+    "astro": "^7.4.4",
+    "sharp": "^0.35.5"
+  }
+}

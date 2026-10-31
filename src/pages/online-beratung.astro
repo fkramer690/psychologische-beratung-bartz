@@ -1,0 +1,102 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Faq from '../components/Faq.astro';
+import Todo from '../components/Todo.astro';
+import { serviceSchema, faqSchema } from '../lib/schema';
+import { ohneHtml, todoHtml } from '../lib/format';
+
+import fotoOnline from '../assets/fotos/online-beratung.jpg';
+
+const fragen = [
+  {
+    frage: 'Was brauche ich für die Online-Beratung?',
+    antwort:
+      '<p>Einen Laptop, ein Tablet oder ein Smartphone mit Kamera, eine stabile Internetverbindung und einen ruhigen Raum, in dem du ungestört sprechen kannst. Kopfhörer helfen, sind aber kein Muss.</p>',
+  },
+  {
+    frage: 'Über welches Programm läuft die Beratung?',
+    antwort: `<p>Über ${todoHtml('Videoplattform')}. Du musst dafür nichts installieren, den Link bekommst du vor dem Termin per E-Mail.</p>`,
+  },
+  {
+    frage: 'Wirkt Online-Beratung genauso gut wie vor Ort?',
+    antwort:
+      '<p>Für die meisten Anliegen ja. Viele schätzen es, in der vertrauten Umgebung zu sprechen. Einige Methoden, etwa das Systembrett, setze ich online in angepasster Form ein. Du kannst das Format jederzeit wechseln.</p>',
+  },
+  {
+    frage: 'Kann ich auch von außerhalb Aachens teilnehmen?',
+    antwort:
+      '<p>Ja. Online-Beratung ist von überall in Deutschland möglich. Die Beratung findet auf Deutsch statt.</p>',
+  },
+];
+---
+
+<Base
+  title="Psychologische Beratung online | Lea Bartz"
+  description="Psychologische und systemische Beratung online per Video: von zu Hause aus, flexibel und vertraulich. Sitzungen à 60 oder 90 Minuten. Erstgespräch kostenlos."
+  breadcrumbs={[
+    { name: 'Angebote', href: '/angebote/' },
+    { name: 'Online-Beratung', href: '/online-beratung/' },
+  ]}
+  schema={[
+    serviceSchema({
+      name: 'Psychologische Beratung online',
+      href: '/online-beratung/',
+      serviceType: 'Online-Beratung',
+      beschreibung:
+        'Psychologische und systemische Beratung per Video, von zu Hause aus, flexibel und vertraulich.',
+    }),
+    faqSchema(fragen.map((f) => ({ frage: f.frage, antwort: ohneHtml(f.antwort) }))),
+  ]}
+>
+  <PageHero
+    eyebrow="Online-Beratung"
+    titel="Psychologische Beratung online"
+    lead="Dieselbe Ruhe und Struktur wie in der Praxis, nur ohne Anfahrt. Per Video sprichst du von dort, wo du dich wohlfühlst, und sparst dir Wege in einem vollen Alltag."
+    bild={fotoOnline}
+    bildAlt="Lea Bartz sitzt mit Kopfhörer am Laptop, wie bei einer Online-Beratung"
+  />
+
+  <section class="section">
+    <div class="container grid-2">
+      <div class="text">
+        <span class="eyebrow">Für wen</span>
+        <h2>Wenn der Weg in die Praxis nicht passt</h2>
+        <p>
+          Online-Beratung ist ideal, wenn dein Kalender voll ist, du nicht in Aachen wohnst, kleine Kinder zu Hause
+          sind oder du dich in deiner gewohnten Umgebung einfach sicherer fühlst. Auch das Erstgespräch kann online
+          stattfinden.
+        </p>
+        <p>
+          Inhaltlich arbeiten wir genauso wie in der Praxis: mit psychologischer und systemischer Beratung, in
+          Sitzungen à 60 oder 90 Minuten und mit einer kurzen Zusammenfassung per E-Mail danach.
+        </p>
+      </div>
+      <div>
+        <h3>So funktioniert es</h3>
+        <ul class="haken">
+          <li>Du bekommst vor dem Termin einen Link per E-Mail.</li>
+          <li>Plattform: <Todo was="Videoplattform" /></li>
+          <li>Du brauchst nur Kamera, Mikrofon und eine stabile Verbindung.</li>
+          <li>Ein ruhiger Raum und Kopfhörer sorgen für Vertraulichkeit.</li>
+          <li>Termine sind auch außerhalb klassischer Zeiten möglich.</li>
+        </ul>
+        <a class="button mt-2" href="/kontakt/">Online-Erstgespräch vereinbaren</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--hell">
+    <div class="container">
+      <div class="text">
+        <span class="eyebrow">Fragen</span>
+        <h2>Häufige Fragen zur Online-Beratung</h2>
+      </div>
+      <div class="mt-2"><Faq fragen={fragen} /></div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>

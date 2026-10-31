@@ -1,0 +1,113 @@
+---
+import Base from '../layouts/Base.astro';
+import Todo from '../components/Todo.astro';
+import { site } from '../config/site';
+---
+
+<Base
+  title="Datenschutzerklärung | Psychologische Beratung Bartz"
+  description="Datenschutz bei Psychologische Beratung Bartz: keine Cookies, kein Tracking, lokale Schriften. Alles zu Kontaktformular, Speicherdauer und deinen Rechten."
+  breadcrumbs={[{ name: 'Datenschutz', href: '/datenschutz/' }]}
+>
+  <section class="section rechtstext">
+    <div class="container text">
+      <h1>Datenschutzerklärung</h1>
+
+      <p class="kasten">
+        <strong>Kurz gesagt:</strong> Diese Website setzt keine Cookies, nutzt kein Tracking und keine Analyse-Dienste
+        und lädt keine Inhalte von Google oder anderen Drittanbietern. Schriften liegen auf dem eigenen Server. Daten
+        verarbeite ich nur, wenn du mir schreibst, und dann nur, um dir zu antworten.
+      </p>
+
+      <h2>1. Verantwortliche</h2>
+      <p>
+        {site.person}, {site.name}, {site.adresse.strasse}, {site.adresse.plz} {site.adresse.ort}, Deutschland<br />
+        E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a>
+        {site.telefon && <><br />Telefon: {site.telefon.anzeige}</>}
+      </p>
+
+      <h2>2. Hosting und Server-Logfiles</h2>
+      <p>
+        Diese Website wird bei <Todo was="Hosting-Anbieter mit Anschrift, z. B. IONOS SE, Elgendorfer Str. 57, 56410 Montabaur" />
+        betrieben. Beim Aufruf der Seiten übermittelt dein Browser automatisch technische Daten, die der Server in
+        Logfiles speichert: aufgerufene Seite, Datum und Uhrzeit, übertragene Datenmenge, Referrer, Browser,
+        Betriebssystem und IP-Adresse. Das ist nötig, um die Website sicher und stabil auszuliefern (Art. 6 Abs. 1 lit.
+        f DSGVO). Die Logfiles werden nach <Todo was="Speicherdauer laut Hoster, z. B. 7 Tage" /> gelöscht oder
+        anonymisiert. Mit dem Hosting-Anbieter besteht ein Vertrag zur Auftragsverarbeitung (Art. 28 DSGVO).
+      </p>
+      <p>Die Verbindung ist per TLS verschlüsselt. Du erkennst das an „https://“ und dem Schloss-Symbol im Browser.</p>
+
+      <h2>3. Keine Cookies, kein Tracking</h2>
+      <p>
+        Diese Website verwendet keine Cookies, keine Webanalyse, keine Werbung, keine Social-Media-Plugins und keine
+        eingebetteten Karten. Deshalb gibt es auch kein Cookie-Banner. Die Schriften Jost und Open Sans sind lokal auf
+        dem Server gespeichert; beim Seitenaufruf wird keine Verbindung zu Google aufgebaut.
+      </p>
+      <p>
+        Der Link „Route planen“ führt zu OpenStreetMap. Erst wenn du ihn anklickst, verlässt du diese Website und es
+        gelten die Datenschutzhinweise der OpenStreetMap Foundation.
+      </p>
+
+      <h2>4. Kontaktformular und E-Mail</h2>
+      <p>
+        Wenn du mir über das Formular oder per E-Mail schreibst, verarbeite ich deine Angaben (Name, E-Mail-Adresse,
+        optional Telefonnummer, gewünschtes Format und deine Nachricht), um deine Anfrage zu beantworten und ggf. ein
+        Erstgespräch zu vereinbaren. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Anbahnung eines Vertrags) und
+        Art. 6 Abs. 1 lit. f DSGVO (Beantwortung von Anfragen).
+      </p>
+      <p>
+        Nachrichten an eine psychologische Beratung können Angaben zu deiner Gesundheit oder anderen besonders
+        geschützten Lebensbereichen enthalten. Solche Angaben verarbeite ich nur mit deiner ausdrücklichen Einwilligung
+        (Art. 9 Abs. 2 lit. a DSGVO), die du im Formular erteilst. Du kannst sie jederzeit mit Wirkung für die Zukunft
+        per E-Mail widerrufen. Bitte schreib nur so viel, wie du für den ersten Kontakt teilen möchtest.
+      </p>
+      <p>
+        Das Formular wird über den Server dieser Website als E-Mail an mich weitergeleitet. Die Daten werden nicht an
+        Dritte weitergegeben. Kommt keine Beratung zustande, lösche ich deine Anfrage spätestens nach
+        <Todo was="Löschfrist, z. B. 6 Monaten" />. Kommt eine Beratung zustande, gelten die gesetzlichen
+        Aufbewahrungsfristen für Rechnungen und Vertragsunterlagen.
+      </p>
+
+      <h2>5. Deine Rechte</h2>
+      <p>Du hast jederzeit das Recht auf</p>
+      <ul>
+        <li>Auskunft über deine gespeicherten Daten (Art. 15 DSGVO),</li>
+        <li>Berichtigung (Art. 16 DSGVO) und Löschung (Art. 17 DSGVO),</li>
+        <li>Einschränkung der Verarbeitung (Art. 18 DSGVO),</li>
+        <li>Datenübertragbarkeit (Art. 20 DSGVO),</li>
+        <li>Widerruf erteilter Einwilligungen (Art. 7 Abs. 3 DSGVO),</li>
+        <li>Widerspruch gegen Verarbeitungen auf Grundlage berechtigter Interessen (Art. 21 DSGVO).</li>
+      </ul>
+      <p>
+        Eine formlose E-Mail an <a href={`mailto:${site.email}`}>{site.email}</a> genügt. Außerdem kannst du dich bei
+        einer Datenschutz-Aufsichtsbehörde beschweren, zum Beispiel bei der Landesbeauftragten für Datenschutz und
+        Informationsfreiheit Nordrhein-Westfalen (LDI NRW), Postfach 20 04 44, 40102 Düsseldorf.
+      </p>
+
+      <h2>6. Änderungen</h2>
+      <p>
+        Ich passe diese Erklärung an, wenn sich die Website oder die Rechtslage ändert. Stand:
+        <Todo was="Datum des Livegangs" />.
+      </p>
+
+      <p class="mikro">
+        <Todo was="Datenschutzerklärung vor Livegang rechtlich prüfen lassen" />
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .rechtstext h1 {
+    margin-bottom: 1.5rem;
+  }
+  .rechtstext h2 {
+    font-size: 1.25rem;
+    margin-top: 2rem;
+  }
+  .kasten {
+    background: var(--sand-hell);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+  }
+</style>

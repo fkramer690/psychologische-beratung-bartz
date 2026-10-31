@@ -1,0 +1,59 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  eyebrow?: string;
+  titel: string;
+  lead?: string;
+  bild?: ImageMetadata;
+  bildAlt?: string;
+  cta?: boolean;
+}
+const { eyebrow, titel, lead, bild, bildAlt = '', cta = true } = Astro.props;
+---
+
+<section class="seitenkopf boegen">
+  <div class="container">
+    <div class={bild ? 'grid-2' : 'text'}>
+      <div>
+        {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+        <h1>{titel}</h1>
+        {lead && <p class="lead">{lead}</p>}
+        <slot />
+        {
+          cta && (
+            <div class="buttons mt-2">
+              <a class="button" href="/kontakt/">Kostenloses Erstgespräch</a>
+              <slot name="cta2" />
+            </div>
+          )
+        }
+      </div>
+      {
+        bild && (
+          <Image
+            src={bild}
+            alt={bildAlt}
+            widths={[400, 640, 900]}
+            sizes="(min-width: 52rem) 34rem, 100vw"
+            class="foto seitenkopf__bild"
+            loading="eager"
+            fetchpriority="high"
+          />
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .seitenkopf {
+    padding-block: clamp(3rem, 7vw, 5.5rem);
+    background: linear-gradient(180deg, var(--sand-hell) 0%, var(--papier) 100%);
+  }
+  .seitenkopf__bild {
+    aspect-ratio: 4 / 3;
+    max-height: 30rem;
+  }
+</style>
