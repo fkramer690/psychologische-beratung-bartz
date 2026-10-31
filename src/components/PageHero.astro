@@ -35,7 +35,7 @@ const { eyebrow, titel, lead, bild, bildAlt = '', cta = true } = Astro.props;
           <Image
             src={bild}
             alt={bildAlt}
-            widths={[400, 640, 900]}
+            widths={[480, 800, 1100]}
             sizes="(min-width: 52rem) 34rem, 100vw"
             class="foto seitenkopf__bild"
             loading="eager"
@@ -52,8 +52,8 @@ const { eyebrow, titel, lead, bild, bildAlt = '', cta = true } = Astro.props;
     padding-block: clamp(3rem, 7vw, 5.5rem);
     background: linear-gradient(180deg, var(--sand-hell) 0%, var(--papier) 100%);
   }
+  /* Alle Fotos sind 3:2, damit wird nichts beschnitten oder verzogen */
   .seitenkopf__bild {
-    aspect-ratio: 4 / 3;
-    max-height: 30rem;
+    aspect-ratio: 3 / 2;
   }
 </style>

@@ -6,10 +6,10 @@ import CtaBand from '../components/CtaBand.astro';
 import { serviceSchema } from '../lib/schema';
 import { preis60Html, preis90Html } from '../lib/format';
 
-import fotoNotizen from '../assets/fotos/notizen.jpg';
-import fotoPraxis from '../assets/fotos/gespraech-praxis.jpg';
-import fotoSystem from '../assets/fotos/systembrett.jpg';
-import fotoWalk from '../assets/fotos/walk-and-talk-hangeweiher.jpg';
+import fotoNotizen from '../assets/fotos/vorbereitung-notizen.jpg';
+import fotoPraxis from '../assets/fotos/beratungsgespraech-praxis.jpg';
+import fotoSystem from '../assets/fotos/systemische-aufstellung-holzfiguren.jpg';
+import fotoWalk from '../assets/fotos/walk-and-talk-weiher.jpg';
 import fotoOnline from '../assets/fotos/online-beratung.jpg';
 
 const formate = [
@@ -53,7 +53,7 @@ const formate = [
     titel="Individuelle Beratung, persönlich und flexibel"
     lead="Ich biete psychologische und systemische Beratung für private und berufliche Themen. Das Format passt sich deinem Alltag an: vor Ort in Aachen, online oder im Grünen beim Walk & Talk. Bei Bedarf auch außerhalb klassischer Öffnungszeiten."
     bild={fotoNotizen}
-    bildAlt="Lea Bartz schreibt am Tisch Notizen in ein Notizbuch"
+    bildAlt="Lea Bartz schreibt am Tisch am Fenster Notizen in ein Notizbuch"
   />
 
   <section class="section" id="psychologische-beratung">
@@ -80,8 +80,8 @@ const formate = [
       </div>
       <Image
         src={fotoPraxis}
-        alt="Lea Bartz sitzt im Sessel und spricht mit einer Klientin in ihrer Praxis"
-        widths={[420, 640, 954]}
+        alt="Lea Bartz sitzt im Sessel und hört einer Klientin in ihrer Praxis zu"
+        widths={[480, 800, 1100]}
         sizes="(min-width: 52rem) 34rem, 100vw"
         class="foto"
       />
@@ -103,8 +103,8 @@ const formate = [
       </div>
       <Image
         src={fotoSystem}
-        alt="Lea Bartz stellt mit Holzfiguren ein Systembrett auf dem Tisch"
-        widths={[420, 640, 966]}
+        alt="Lea Bartz stellt mit Holzfiguren eine systemische Aufstellung auf dem Tisch"
+        widths={[480, 800, 1100]}
         sizes="(min-width: 52rem) 34rem, 100vw"
         class="foto"
       />
@@ -136,8 +136,8 @@ const formate = [
         }
       </div>
       <div class="bilder mt-2">
-        <Image src={fotoWalk} alt="Lea Bartz geht mit einer Klientin beim Walk & Talk am Wasser spazieren" widths={[420, 640]} sizes="(min-width: 52rem) 34rem, 100vw" class="foto" />
-        <Image src={fotoOnline} alt="Lea Bartz sitzt mit Kopfhörer am Laptop, wie bei einer Online-Beratung" widths={[420, 640]} sizes="(min-width: 52rem) 34rem, 100vw" class="foto" />
+        <Image src={fotoWalk} alt="Lea Bartz geht beim Walk & Talk mit einer Klientin am Weiher entlang" widths={[420, 640, 900]} sizes="(min-width: 52rem) 34rem, 100vw" class="foto" />
+        <Image src={fotoOnline} alt="Lea Bartz sitzt mit Kopfhörer am Laptop während einer Online-Beratung" widths={[420, 640, 900]} sizes="(min-width: 52rem) 34rem, 100vw" class="foto" />
       </div>
     </div>
   </section>
