@@ -38,7 +38,24 @@ Diese Aussagen stehen nicht auf der alten Seite. Sie sind aus Best Practices und
 
 ## 4. Fotos
 
-Die Fotos stammen von der bisherigen Website. Laut Jev-Check und eigener Einschätzung wirken einige KI-generiert. Für Vertrauen und das Google-Unternehmensprofil sind echte Fotos von Lea, der Praxis und dem Hangeweiher deutlich besser. Neue Fotos einfach in `src/assets/fotos/` unter gleichem Namen ersetzen; Größe und Format erledigt der Build.
+Seit 31.10.2026 ist ein neuer Bildsatz eingebunden (12 Fotos, 3:2 quer bzw. 2:3 hoch). Die Seitenverhältnisse im CSS passen zu den Fotos, sodass nichts verzerrt wird; wo ein Ausschnitt nötig ist (Startseite oben, Porträts, Panorama), sitzt er per `object-position` auf Lea.
+
+| Foto | Wo |
+| --- | --- |
+| `lea-bartz-praxis-sessel.jpg` | Startseite oben |
+| `gespraech-bildkarten.jpg` | Startseite, Systemische Beratung |
+| `lea-bartz-willkommen.jpg` | Startseite „Hallo, ich bin Lea“ |
+| `lea-bartz-am-weiher-panorama.jpg` | Startseite „Zwischen Praxis und Hangeweiher“ |
+| `lea-bartz-portraet-wasser.jpg` | Über mich oben (und zugeschnitten als `public/lea-bartz.jpg` für Vorschaubild und strukturierte Daten) |
+| `beratungsgespraech-praxis.jpg` | Angebote, Über mich |
+| `vorbereitung-notizen.jpg` | Angebote oben |
+| `systemische-aufstellung-holzfiguren.jpg` | Systemische Beratung oben, Angebote |
+| `walk-and-talk-weiher.jpg` | Walk & Talk oben, Angebote |
+| `lea-bartz-bank-am-weiher.jpg` | Walk & Talk |
+| `online-beratung.jpg` | Online-Beratung oben, Angebote |
+| `telefonkontakt.jpg` | Kontakt, Anfahrt |
+
+Für das Google-Unternehmensprofil zählen echte Fotos von Lea, der Praxis und dem Hangeweiher. Neue Fotos einfach in `src/assets/fotos/` unter gleichem Namen ersetzen; Größe und Format erledigt der Build.
 
 ## 5. Ausbaustufen (wenn Lea das anbietet)
 

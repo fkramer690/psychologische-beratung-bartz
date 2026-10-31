@@ -5,8 +5,8 @@ import CtaBand from '../components/CtaBand.astro';
 import Todo from '../components/Todo.astro';
 import { site } from '../config/site';
 
-import fotoPortraet from '../assets/fotos/lea-bartz-portraet.jpg';
-import fotoPraxis from '../assets/fotos/gespraech-praxis.jpg';
+import fotoPortraet from '../assets/fotos/lea-bartz-portraet-wasser.jpg';
+import fotoPraxis from '../assets/fotos/beratungsgespraech-praxis.jpg';
 
 const werte = [
   { titel: 'Ruhig', text: 'Du bekommst Zeit und Raum. Kein Druck, keine schnellen Lösungen.' },
@@ -41,8 +41,8 @@ const werte = [
       </div>
       <Image
         src={fotoPortraet}
-        alt="Porträt von Lea Bartz, lächelnd, im Hintergrund unscharf die Stadt"
-        widths={[400, 600, 790]}
+        alt="Porträt von Lea Bartz in heller Jacke, lächelnd am Ufer eines Weihers"
+        widths={[400, 640, 900]}
         sizes="(min-width: 52rem) 30rem, 100vw"
         class="foto portraet"
         loading="eager"
@@ -131,8 +131,8 @@ const werte = [
       </div>
       <Image
         src={fotoPraxis}
-        alt="Lea Bartz sitzt im Sessel und spricht mit einer Klientin in ihrer Praxis"
-        widths={[420, 640, 954]}
+        alt="Lea Bartz sitzt im Sessel und hört einer Klientin in ihrer Praxis zu"
+        widths={[480, 800, 1100]}
         sizes="(min-width: 52rem) 34rem, 100vw"
         class="foto"
       />
@@ -147,9 +147,12 @@ const werte = [
     background: linear-gradient(180deg, var(--sand-hell) 0%, var(--papier) 100%);
     padding-block: clamp(3rem, 7vw, 5.5rem);
   }
+  /* Hochformat 2:3, leicht oben und unten beschnitten */
   .portraet {
-    aspect-ratio: 5 / 6;
-    max-height: 34rem;
+    aspect-ratio: 4 / 5;
+    max-width: 30rem;
+    margin-inline: auto;
+    object-position: 50% 25%;
   }
   .zitat {
     margin: 2rem 0;

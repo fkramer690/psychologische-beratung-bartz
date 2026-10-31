@@ -9,10 +9,10 @@ import { auswahl } from '../data/faq';
 import { faqSchema } from '../lib/schema';
 import { ohneHtml } from '../lib/format';
 
-import fotoWeiher from '../assets/fotos/lea-bartz-am-weiher.jpg';
+import fotoHero from '../assets/fotos/lea-bartz-praxis-sessel.jpg';
 import fotoGespraech from '../assets/fotos/gespraech-bildkarten.jpg';
-import fotoPortraet from '../assets/fotos/lea-bartz-portraet.jpg';
-import fotoWalk from '../assets/fotos/walk-and-talk-hangeweiher.jpg';
+import fotoWillkommen from '../assets/fotos/lea-bartz-willkommen.jpg';
+import fotoWeiher from '../assets/fotos/lea-bartz-am-weiher-panorama.jpg';
 
 const faqStart = auswahl(
   'Was passiert im kostenlosen Erstgespräch?',
@@ -55,9 +55,9 @@ const anliegen = [
         <p class="mikro">20–30 Minuten · kostenfrei und unverbindlich · vertraulich</p>
       </div>
       <Image
-        src={fotoWeiher}
-        alt="Lea Bartz, psychologische Beraterin in Aachen, sitzt im Herbst am Ufer eines Weihers"
-        widths={[420, 640, 935]}
+        src={fotoHero}
+        alt="Lea Bartz, psychologische Beraterin in Aachen, sitzt lächelnd im Sessel ihrer hellen Praxis"
+        widths={[480, 800, 1100]}
         sizes="(min-width: 52rem) 34rem, 100vw"
         class="foto hero__bild"
         loading="eager"
@@ -99,7 +99,7 @@ const anliegen = [
       <Image
         src={fotoGespraech}
         alt="Lea Bartz im Beratungsgespräch mit einem Klienten, auf dem Tisch liegen Bildkarten"
-        widths={[420, 640, 947]}
+        widths={[480, 800, 1100]}
         sizes="(min-width: 52rem) 34rem, 100vw"
         class="foto"
       />
@@ -173,9 +173,9 @@ const anliegen = [
         <a class="button button--hell" href="/ueber-mich/">Mehr über mich</a>
       </div>
       <Image
-        src={fotoPortraet}
-        alt="Porträt von Lea Bartz, lächelnd, im Hintergrund unscharf die Stadt"
-        widths={[400, 600, 790]}
+        src={fotoWillkommen}
+        alt="Lea Bartz steht lächelnd in der offenen Tür ihrer Praxis"
+        widths={[400, 640, 900]}
         sizes="(min-width: 52rem) 30rem, 100vw"
         class="foto portraet"
       />
@@ -203,11 +203,11 @@ const anliegen = [
         </div>
       </div>
       <Image
-        src={fotoWalk}
-        alt="Lea Bartz geht mit einer Klientin beim Walk & Talk am Wasser spazieren"
-        widths={[420, 640, 958]}
+        src={fotoWeiher}
+        alt="Lea Bartz steht lächelnd am Ufer eines Weihers"
+        widths={[480, 800, 1100]}
         sizes="(min-width: 52rem) 34rem, 100vw"
-        class="foto walk"
+        class="foto weiher"
       />
     </div>
   </section>
@@ -237,14 +237,14 @@ const anliegen = [
   .hero h1 {
     max-width: 15ch;
   }
+  /* Foto ist 3:2; auf breiten Bildschirmen quadratisch, mittig auf Lea */
   .hero__bild {
-    aspect-ratio: 4 / 5;
-    max-height: 36rem;
-    object-position: 35% 50%;
+    aspect-ratio: 3 / 2;
+    object-position: 60% 40%;
   }
-  @media (max-width: 52rem) {
+  @media (min-width: 52rem) {
     .hero__bild {
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 1 / 1;
     }
   }
 
@@ -276,13 +276,17 @@ const anliegen = [
     color: var(--greige);
   }
 
+  /* Hochformat 2:3, leicht oben und unten beschnitten */
   .portraet {
-    aspect-ratio: 5 / 6;
-    max-height: 32rem;
+    aspect-ratio: 4 / 5;
+    max-width: 30rem;
+    margin-inline: auto;
+    object-position: 50% 25%;
   }
-  .walk {
-    aspect-ratio: 1 / 1;
-    max-height: 32rem;
+  /* Panorama 2:1, Ausschnitt rechts mit Lea */
+  .weiher {
+    aspect-ratio: 3 / 2;
+    object-position: 80% 50%;
   }
   .adresse {
     font-style: normal;
