@@ -1,0 +1,51 @@
+name: Vorschau (GitHub Pages)
+
+# Baut die Website und stellt sie als Vorschau auf GitHub Pages bereit:
+# https://fkramer690.github.io/psychologische-beratung-bartz/
+# Die Vorschau ist für Suchmaschinen gesperrt (noindex + robots.txt) und
+# hat oben einen Hinweis "noch nicht live". Die echte Domain bleibt unberührt.
+#
+# Einmalig nötig: Settings → Pages → Build and deployment → Source: "GitHub Actions".
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Als Vorschau unter /psychologische-beratung-bartz/ vorbereiten
+        run: node scripts/vorschau.mjs
+        env:
+          VORSCHAU_BASIS: /${{ github.event.repository.name }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -26,6 +26,7 @@ Node 22 (siehe `.nvmrc`).
 | Farben, Schriften, Abstände | `src/styles/global.css` |
 | Fotos (werden beim Build verkleinert und als WebP ausgeliefert) | `src/assets/fotos/` |
 | Logo, Favicons, Vorschaubild, robots.txt, `.htaccess`, Formular-Skript | `public/` |
+| Prüfung, Vorschau, Veröffentlichen | `.github/workflows/`, `scripts/` |
 | Konzept, SEO-Zuordnung, offene Punkte | `docs/` |
 
 ## Seiten
@@ -51,6 +52,12 @@ Fehlende Angaben stehen in `src/config/site.ts` als `null` und erscheinen auf de
 ## Kontaktformular
 
 Das Formular schickt an `public/kontakt-senden.php`. Das Skript läuft auf jedem PHP-Webspace (z. B. IONOS-Webhosting), verschickt die Anfrage per `mail()` an Lea und leitet auf `/kontakt/danke/` weiter. Nichts wird gespeichert, kein Drittanbieter. Vor dem Livegang einmal testen. Bei einem Hoster ohne PHP (Netlify, Cloudflare Pages) `formAction` in `src/config/site.ts` auf einen anderen Formular-Dienst umstellen.
+
+## Vorschau
+
+Jeder Stand auf `main` wird automatisch als Vorschau veröffentlicht: **https://fkramer690.github.io/psychologische-beratung-bartz/**
+
+Die Vorschau ist für Suchmaschinen gesperrt, zeigt oben den Hinweis „noch nicht live“, und das Kontaktformular sendet dort nichts. Gebaut wird sie von `.github/workflows/vorschau.yml` mit `scripts/vorschau.mjs`. Einmalig nötig: *Settings → Pages → Build and deployment → Source: GitHub Actions*.
 
 ## Veröffentlichen
 
